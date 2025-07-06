@@ -1,0 +1,74 @@
+<?php
+
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'To-Do App Laravel')</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script>
+        // Script para evitar flash de conteúdo (executado antes do body)
+        if (localStorage.getItem('darkMode') === 'true' || 
+            (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 min-h-screen transition-colors duration-500">
+    <div class="container mx-auto px-4 py-8">
+        @yield('content')
+    </div>
+    
+    @if(session('success'))
+        <div x-data="{ show: true }" 
+             x-show="show" 
+             x-transition 
+             x-init="setTimeout(() => show = false, 3000)"
+             class="fixed top-4 right-4 bg-green-500 dark:bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <script>
+        // Gerenciamento do Dark Mode
+        window.darkModeManager = {
+            init() {
+                // Verificar preferência salva ou preferência do sistema
+                const savedMode = localStorage.getItem('darkMode');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedMode === 'true' || (!savedMode && prefersDark)) {
+                    this.enableDark();
+                } else {
+                    this.enableLight();
+                }
+            },
+            
+            toggle() {
+                if (document.documentElement.classList.contains('dark')) {
+                    this.enableLight();
+                } else {
+                    this.enableDark();
+                }
+            },
+            
+            enableDark() {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('darkMode', 'true');
+            },
+            
+            enableLight() {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('darkMode', 'false');
+            }
+        };
+
+        // Inicializar quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            window.darkModeManager.init();
+        });
+    </script>
+</body>
+</html>

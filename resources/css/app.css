@@ -1,0 +1,67 @@
+
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Background gradients para light e dark mode */
+body {
+  background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 50%, #f3e8ff 100%);
+  transition: background 0.5s ease;
+}
+
+.dark body {
+  background: linear-gradient(135deg, #0f172a 0%, #581c87 50%, #0f172a 100%) !important;
+}
+
+/* Melhorias para dark mode */
+.dark .text-gray-800 {
+  color: #f3f4f6 !important;
+}
+
+.dark .text-gray-600 {
+  color: #d1d5db !important;
+}
+
+.dark .text-gray-500 {
+  color: #9ca3af !important;
+}
+
+.dark .text-gray-700 {
+  color: #e5e7eb !important;
+}
+
+/* Stats cards no header */
+.dark .bg-white\/70 {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Form containers */
+.dark .bg-white\/80 {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Task cards */
+.dark .bg-white\/80 {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Filtros inativos */
+.dark .bg-white\/70:not(.bg-indigo-500) {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Progress bar background */
+.dark .bg-gray-200 {
+  background: #374151 !important;
+}
+
+/* Hover effects melhorados */
+.dark .hover\:bg-white\/90:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark .hover\:bg-white\/20:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}

@@ -1,240 +1,251 @@
 @extends('layouts.app')
 
-@section('title', 'Minhas Tarefas')
+@section('title', __('messages.app_title'))
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-4xl mx-auto animate-fade-in font-poppins">
+    <!-- Navigation -->
+    <nav class="mb-8 animate-slide-up">
+        <div class="bg-glass backdrop-blur-md rounded-2xl border border-white/10 p-6 shadow-glass">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-6">
+                    <a href="{{ route('home.index') }}" 
+                       class="flex items-center space-x-2 text-gray-400 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-glow rounded-lg px-3 py-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        <span class="font-medium">{{ __('messages.home') }}</span>
+                    </a>
+                    <a href="{{ route('tasks.index') }}" 
+                       class="flex items-center space-x-2 text-white bg-gradient-primary rounded-lg px-3 py-2 shadow-glow">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        <span class="font-medium">{{ __('messages.tasks') }}</span>
+                    </a>
+                    <a href="{{ route('stats.index') }}" 
+                       class="flex items-center space-x-2 text-gray-400 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-glow rounded-lg px-3 py-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        <span class="font-medium">{{ __('messages.statistics') }}</span>
+                    </a>
+                </div>
+                
+                <!-- Theme Toggle and Language Switcher -->
+                <div class="flex items-center space-x-6">
+                    <!-- Theme Toggle -->
+                    <div class="flex items-center space-x-3">
+                        <span class="text-sm dark:text-gray-400 light:text-gray-600 font-medium">{{ __('messages.theme') }}:</span>
+                        <button class="theme-toggle" title="{{ __('messages.toggle_theme') }}">
+                            <div class="theme-toggle-slider"></div>
+                            <svg class="theme-toggle-icon theme-toggle-moon" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" clip-rule="evenodd"></path>
+                            </svg>
+                            <svg class="theme-toggle-icon theme-toggle-sun" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Language Switcher -->
+                    <div class="flex items-center space-x-3">
+                        <span class="text-sm dark:text-gray-400 light:text-gray-600 font-medium">{{ __('messages.language') }}:</span>
+                        <div class="flex space-x-2">
+                            @foreach($availableLocales as $locale)
+                                <a href="{{ route('locale.switch', $locale) }}" 
+                                   class="px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 {{ $currentLocale === $locale ? 'bg-gradient-primary text-white shadow-glow' : 'bg-glass-dark dark:text-gray-300 light:text-gray-700 hover:bg-glass dark:hover:text-white light:hover:text-gray-900 hover:scale-105' }}">
+                                    {{ strtoupper($locale) }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <!-- Header -->
-    <div class="text-center mb-12">
-        <div class="flex items-center justify-center gap-4 mb-6">
-            <div class="p-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg">
-                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                </svg>
-            </div>
-            
-            <h1 class="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
-                Minhas Tarefas
-            </h1>
-            
-            <!-- Dark Mode Toggle -->
-            <button id="dark-mode-toggle" 
-                    onclick="toggleDarkMode()" 
-                    class="p-3 rounded-2xl transition-all duration-300 hover:scale-110 bg-slate-800 dark:bg-yellow-400 text-yellow-400 dark:text-slate-900 shadow-lg hover:shadow-xl">
-                <!-- Sun Icon (mostrado no dark mode) -->
-                <svg class="w-6 h-6 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                </svg>
-                <!-- Moon Icon (mostrado no light mode) -->
-                <svg class="w-6 h-6 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-                </svg>
-            </button>
-        </div>
-        
-        <!-- Stats -->
-        <div class="flex justify-center gap-6 flex-wrap">
-            <div class="px-6 py-3 rounded-xl bg-white/70 dark:bg-white/10 backdrop-blur-sm shadow-lg border border-white/20 dark:border-white/10">
-                <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Total:</span>
-                <span class="text-lg font-bold text-gray-800 dark:text-white ml-1">{{ $stats['total'] }}</span>
-            </div>
-            <div class="px-6 py-3 rounded-xl bg-green-100/80 dark:bg-green-500/20 backdrop-blur-sm shadow-lg border border-green-200/50 dark:border-green-500/20">
-                <span class="text-sm font-medium text-green-600 dark:text-green-300">Concluídas:</span>
-                <span class="text-lg font-bold text-green-800 dark:text-green-200 ml-1">{{ $stats['completed'] }}</span>
-            </div>
-            <div class="px-6 py-3 rounded-xl bg-orange-100/80 dark:bg-orange-500/20 backdrop-blur-sm shadow-lg border border-orange-200/50 dark:border-orange-500/20">
-                <span class="text-sm font-medium text-orange-600 dark:text-orange-300">Pendentes:</span>
-                <span class="text-lg font-bold text-orange-800 dark:text-orange-200 ml-1">{{ $stats['pending'] }}</span>
-            </div>
-            <div class="px-6 py-3 rounded-xl bg-red-100/80 dark:bg-red-500/20 backdrop-blur-sm shadow-lg border border-red-200/50 dark:border-red-500/20">
-                <span class="text-sm font-medium text-red-600 dark:text-red-300">Alta Prioridade:</span>
-                <span class="text-lg font-bold text-red-800 dark:text-red-200 ml-1">{{ $stats['high_priority'] }}</span>
-            </div>
-        </div>
+    <div class="mb-8 animate-slide-up" style="animation-delay: 0.1s;">
+        <h1 class="text-5xl font-bold dark:bg-gradient-to-r dark:from-white dark:via-blue-100 dark:to-purple-200 light:bg-gradient-to-r light:from-gray-800 light:via-gray-600 light:to-gray-700 bg-clip-text text-transparent mb-4 animate-float">{{ __('messages.my_tasks') }}</h1>
+        <p class="dark:text-gray-300 light:text-gray-600 text-lg font-medium">{{ __('messages.manage_your_tasks') }}</p>
     </div>
 
     <!-- Add Task Form -->
-    <div class="bg-white/80 dark:bg-white/5 backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 border border-white/50 dark:border-white/10">
-        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Adicionar Nova Tarefa</h2>
+    <div class="bg-glass backdrop-blur-md rounded-2xl dark:border-white/10 light:border-black/10 p-8 mb-8 shadow-glass hover:shadow-refined-lg transition-all duration-400 animate-slide-up" style="animation-delay: 0.2s;">
+        <h2 class="text-2xl font-semibold dark:text-white light:text-gray-900 mb-6 flex items-center space-x-3">
+            <div class="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+            </div>
+            <span>{{ __('messages.add_new_task') }}</span>
+        </h2>
         
-        <form action="{{ route('tasks.store') }}" method="POST" class="space-y-6">
+        <form action="{{ route('tasks.store') }}" method="POST" class="space-y-4">
             @csrf
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Título</label>
-                    <input type="text" name="title" id="title" required
-                           class="w-full p-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-indigo-500 dark:focus:border-indigo-400 focus:outline-none transition-colors"
-                           placeholder="Digite o título da tarefa...">
-                    @error('title')
-                        <p class="text-red-500 dark:text-red-400 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+                    <label for="title" class="block text-sm font-semibold text-gray-200 mb-3">
+                        {{ __('messages.title') }} *
+                    </label>
+                    <input type="text" 
+                           id="title" 
+                           name="title" 
+                           required
+                           class="w-full px-4 py-3 bg-gray-800/50 backdrop-blur-sm border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400/50 focus:bg-gray-700/50 transition-all duration-300 hover:bg-gray-700/30"
+                           placeholder="{{ __('messages.enter_task_title') }}">
                 </div>
                 
                 <div>
-                    <label for="priority" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Prioridade</label>
-                    <select name="priority" id="priority" required
-                            class="w-full p-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 focus:outline-none transition-colors">
-                        <option value="low">Baixa</option>
-                        <option value="medium" selected>Média</option>
-                        <option value="high">Alta</option>
+                    <label for="priority" class="block text-sm font-semibold text-gray-200 mb-3">
+                        {{ __('messages.priority') }} *
+                    </label>
+                    <select id="priority" 
+                            name="priority" 
+                            required
+                            class="w-full px-4 py-3 bg-gray-800/50 backdrop-blur-sm border border-gray-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400/50 focus:bg-gray-700/50 transition-all duration-300 hover:bg-gray-700/30">
+                        <option value="">{{ __('messages.select_priority') }}</option>
+                        <option value="low">{{ __('messages.low') }}</option>
+                        <option value="medium">{{ __('messages.medium') }}</option>
+                        <option value="high">{{ __('messages.high') }}</option>
                     </select>
                 </div>
             </div>
             
             <div>
-                <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Descrição</label>
-                <textarea name="description" id="description" rows="3"
-                          class="w-full p-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-indigo-500 dark:focus:border-indigo-400 focus:outline-none transition-colors"
-                          placeholder="Descreva sua tarefa..."></textarea>
+                <label for="description" class="block text-sm font-semibold text-gray-200 mb-3">
+                    {{ __('messages.description') }}
+                </label>
+                <textarea id="description" 
+                          name="description" 
+                          rows="3"
+                          class="w-full px-4 py-3 bg-gray-800/50 backdrop-blur-sm border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400/50 focus:bg-gray-700/50 transition-all duration-300 hover:bg-gray-700/30 resize-none"
+                          placeholder="{{ __('messages.describe_task') }}"></textarea>
             </div>
             
             <div>
-                <label for="due_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Data de Vencimento</label>
-                <input type="date" name="due_date" id="due_date"
-                       class="w-full p-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 focus:outline-none transition-colors">
+                <label for="due_date" class="block text-sm font-semibold text-gray-200 mb-3">
+                    {{ __('messages.due_date') }}
+                </label>
+                <input type="date" 
+                       id="due_date" 
+                       name="due_date"
+                       class="w-full px-4 py-3 bg-gray-800/50 backdrop-blur-sm border border-gray-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400/50 focus:bg-gray-700/50 transition-all duration-300 hover:bg-gray-700/30">
             </div>
             
-            <button type="submit"
-                    class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                Criar Tarefa
-            </button>
+            <div class="flex justify-end pt-4">
+                <button type="submit" 
+                        class="px-8 py-3 bg-gradient-primary hover:shadow-glow text-white font-semibold rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-transparent hover:scale-105 transform">
+                    {{ __('messages.create_task') }}
+                </button>
+            </div>
         </form>
     </div>
-
-    <!-- Filters -->
-    <div class="flex flex-wrap justify-center gap-3 mb-8">
-        @php
-            $filters = [
-                'all' => 'Todas',
-                'pending' => 'Pendentes',
-                'completed' => 'Concluídas',
-                'high' => 'Alta Prioridade',
-                'medium' => 'Média Prioridade',
-                'low' => 'Baixa Prioridade'
-            ];
-        @endphp
-        
-        @foreach($filters as $key => $label)
-            <a href="{{ route('tasks.index', ['filter' => $key]) }}"
-               class="px-4 py-2 rounded-xl transition-all duration-300 {{ 
-                   $filter === $key 
-                       ? 'bg-indigo-500 text-white shadow-lg scale-105' 
-                       : 'bg-white/70 dark:bg-white/10 text-gray-600 dark:text-gray-300 hover:bg-white/90 dark:hover:bg-white/20 hover:scale-105 border border-white/50 dark:border-white/10'
-               }}">
-                {{ $label }}
-            </a>
-        @endforeach
-    </div>
-
     <!-- Tasks List -->
-    <div class="space-y-4">
+    <div class="space-y-6">
         @forelse($tasks as $task)
-            <div class="group bg-white/80 dark:bg-white/5 backdrop-blur-sm rounded-2xl shadow-lg border border-white/50 dark:border-white/10 p-6 hover:shadow-xl dark:hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
-                <div class="flex items-start gap-4">
-                    <!-- Toggle Button -->
-                    <form action="{{ route('tasks.toggle', $task) }}" method="POST">
-                        @csrf
-                        @method('PATCH')
-                        <button type="submit"
-                                class="flex-shrink-0 w-6 h-6 rounded-full border-2 transition-all duration-300 flex items-center justify-center mt-1 {{ 
-                                    $task->completed 
-                                        ? 'bg-green-500 border-green-500 scale-110' 
-                                        : 'border-gray-300 dark:border-gray-500 hover:border-green-500 dark:hover:border-green-400'
-                                }}">
-                            @if($task->completed)
-                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            @endif
-                        </button>
-                    </form>
-                    
-                    <!-- Task Content -->
+            <div class="bg-glass backdrop-blur-md rounded-2xl border border-white/10 p-6 shadow-glass hover:shadow-refined-lg transition-all duration-400 animate-slide-up {{ $task->completed ? 'border-l-4 border-l-green-400' : 'border-l-4 border-l-blue-400' }} group hover:scale-[1.02] transform">
+                <div class="flex items-start justify-between">
                     <div class="flex-1">
-                        <div class="flex items-center gap-3 mb-2">
-                            <h3 class="font-semibold text-lg {{ $task->completed ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-800 dark:text-white' }}">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <h3 class="text-xl font-semibold {{ $task->completed ? 'line-through text-gray-400' : 'text-white' }} group-hover:text-blue-100 transition-colors duration-300">
                                 {{ $task->title }}
                             </h3>
-                            <span class="px-3 py-1 rounded-full text-xs font-medium border {{ 
-                                $task->priority === 'high' ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 border-red-200 dark:border-red-800' :
-                                ($task->priority === 'medium' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800' :
-                                'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 border-green-200 dark:border-green-800')
-                            }}">
-                                {{ ucfirst($task->priority) }}
+                            
+                            <!-- Priority Badge -->
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full text-white shadow-refined
+                                @if($task->priority === 'high') bg-gradient-danger shadow-glow-red
+                                @elseif($task->priority === 'medium') bg-gradient-warning shadow-glow-yellow
+                                @else bg-gradient-success shadow-glow-green
+                                @endif">
+                                {{ __("messages.{$task->priority}") }}
                             </span>
+                            
+                            @if($task->completed)
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-gradient-success text-white shadow-glow-green">
+                                    {{ __('messages.completed') }}
+                                </span>
+                            @endif
                         </div>
                         
                         @if($task->description)
-                            <p class="text-gray-600 dark:text-gray-300 mb-2 {{ $task->completed ? 'line-through' : '' }}">
+                            <p class="text-gray-300 mb-4 leading-relaxed {{ $task->completed ? 'line-through' : '' }}">
                                 {{ $task->description }}
                             </p>
                         @endif
                         
-                        <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                            <span>Criada em: {{ $task->created_at->format('d/m/Y H:i') }}</span>
+                        <div class="flex items-center space-x-6 text-sm text-gray-400">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>{{ __('messages.created') }}: {{ $task->created_at->format('d/m/Y H:i') }}</span>
+                            </div>
                             @if($task->due_date)
-                                <span class="flex items-center gap-1">
+                                <div class="flex items-center space-x-2 {{ $task->due_date < now() && !$task->completed ? 'text-red-400' : '' }}">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                     </svg>
-                                    Vence em: {{ $task->due_date->format('d/m/Y') }}
-                                </span>
+                                    <span>{{ __('messages.due_date') }}: {{ \Carbon\Carbon::parse($task->due_date)->format('d/m/Y') }}</span>
+                                </div>
                             @endif
                         </div>
                     </div>
                     
                     <!-- Actions -->
-                    <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="inline">
+                    <div class="flex items-center space-x-3 ml-6">
+                        <!-- Toggle Complete -->
+                        <form action="{{ route('tasks.toggle', $task) }}" method="POST" class="inline">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" 
+                                    class="px-4 py-2 text-sm font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent
+                                    {{ $task->completed ? 'bg-gradient-warning hover:shadow-glow-yellow text-white focus:ring-yellow-500/50' : 'bg-gradient-success hover:shadow-glow-green text-white focus:ring-green-500/50' }}">
+                                {{ $task->completed ? __('messages.mark_pending') : __('messages.mark_complete') }}
+                            </button>
+                        </form>
+                        
+                        <!-- Delete -->
+                        <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="inline delete-form">
                             @csrf
                             @method('DELETE')
-                            <button type="submit"
-                                    onclick="return confirm('Tem certeza que deseja excluir esta tarefa?')"
-                                    class="p-2 rounded-xl text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                </svg>
+                            <button type="submit" 
+                                    class="px-4 py-2 text-sm font-semibold bg-gradient-danger hover:shadow-glow-red text-white rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-transparent">
+                                {{ __('messages.delete_task') }}
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
         @empty
-            <div class="text-center py-12">
-                <svg class="w-16 h-16 mx-auto mb-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                </svg>
-                <p class="text-lg text-gray-500 dark:text-gray-400">Nenhuma tarefa encontrada</p>
-                <p class="text-sm text-gray-400 dark:text-gray-500 mt-2">Crie sua primeira tarefa acima!</p>
+            <div class="text-center py-16 animate-fade-in">
+                <div class="bg-glass backdrop-blur-md rounded-2xl border border-white/10 p-12 shadow-glass">
+                    <div class="text-gray-400 text-lg mb-6">
+                        <svg class="mx-auto h-20 w-20 mb-6 animate-float" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-200 mb-4">{{ __('messages.no_tasks') }}</h3>
+                    <p class="text-gray-400 text-lg">{{ __('messages.no_tasks_description') }}</p>
+                </div>
             </div>
         @endforelse
     </div>
-    
-    <!-- Progress Bar -->
-    @if($stats['total'] > 0)
-        <div class="mt-12 bg-white/80 dark:bg-white/5 backdrop-blur-sm rounded-2xl shadow-lg p-6 border border-white/50 dark:border-white/10">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Progresso Geral</span>
-                <span class="text-sm font-bold text-gray-800 dark:text-white">
-                    {{ round(($stats['completed'] / $stats['total']) * 100) }}%
-                </span>
-            </div>
-            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
-                <div class="bg-gradient-to-r from-indigo-500 to-purple-600 h-3 rounded-full transition-all duration-500" 
-                     style="width: {{ ($stats['completed'] / $stats['total']) * 100 }}%"></div>
-            </div>
-            <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-3">
-                {{ $stats['completed'] }} de {{ $stats['total'] }} tarefas concluídas
-            </p>
-            
-            @if($stats['completed'] === $stats['total'])
-                <div class="text-center mt-4">
-                    <span class="text-2xl">🎉</span>
-                    <p class="text-green-600 dark:text-green-400 font-semibold">Parabéns! Todas as tarefas concluídas!</p>
-                </div>
-            @endif
-        </div>
-    @endif
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteForms = document.querySelectorAll('.delete-form');
+    deleteForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            if (!confirm('{{ __("messages.confirm_delete") }}')) {
+                e.preventDefault();
+            }
+        });
+    });
+});
+</script>
+@endpush

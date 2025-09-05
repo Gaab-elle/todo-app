@@ -14,7 +14,8 @@ class Task extends Model
         'description',
         'completed',
         'priority',
-        'due_date'
+        'due_date',
+        'status'
     ];
 
     protected $casts = [
@@ -35,6 +36,11 @@ class Task extends Model
     public function scopeByPriority($query, $priority)
     {
         return $query->where('priority', $priority);
+    }
+
+    public function scopeByStatus($query, $status)
+    {
+        return $query->where('status', $status);
     }
 
     public function getPriorityColorAttribute()

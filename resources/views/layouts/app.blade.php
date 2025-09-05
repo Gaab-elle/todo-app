@@ -1,24 +1,113 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="{{ app()->getLocale() }}" class="{{ session('theme', 'dark') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'To-Do App Laravel')</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="min-h-screen transition-all duration-500 relative overflow-x-hidden">
-    {{-- Background layers para light e dark mode --}}
-    <div class="fixed inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:opacity-0 transition-opacity duration-500"></div>
-    <div class="fixed inset-0 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 opacity-0 dark:opacity-100 transition-opacity duration-500"></div>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    {{-- Conteúdo principal --}}
-    <div class="relative z-10 min-h-screen">
-        <div class="container mx-auto px-4 py-8">
-            @yield('content')
-        </div>
+    <title>@yield('title', 'To-Do App Laravel')</title>
+    
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    @vite(['resources/css/app.css', 'resources/css/custom.css', 'resources/js/app.js'])
+    
+    @stack('styles')
+    
+    <!-- Translations for JavaScript -->
+    <script>
+        window.translations = {
+            'confirmDelete': '{{ __("messages.confirm_delete") }}',
+            'save': '{{ __("messages.save") }}',
+            'cancel': '{{ __("messages.cancel") }}',
+            'enterTaskTitle': '{{ __("messages.enter_task_title") }}',
+            'describeTask': '{{ __("messages.describe_task") }}',
+            'createTask': '{{ __("messages.create_task") }}',
+            'editTask': '{{ __("messages.edit_task") }}',
+            'deleteTask': '{{ __("messages.delete_task") }}',
+            'markComplete': '{{ __("messages.mark_complete") }}',
+            'markPending': '{{ __("messages.mark_pending") }}',
+            'addNewTask': '{{ __("messages.add_new_task") }}',
+            'high': '{{ __("messages.high") }}',
+            'medium': '{{ __("messages.medium") }}',
+            'low': '{{ __("messages.low") }}',
+            'all': '{{ __("messages.all") }}',
+            'pending': '{{ __("messages.pending") }}',
+            'completed': '{{ __("messages.completed") }}',
+            'title': '{{ __("messages.title") }}',
+            'description': '{{ __("messages.description") }}',
+            'priority': '{{ __("messages.priority") }}',
+            'dueDate': '{{ __("messages.due_date") }}'
+        };
+    </script>
+    
+    <!-- Dynamic theme styles -->
+    <style>
+        /* Base font family */
+        body {
+            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Dark theme styles */
+        .dark {
+            color-scheme: dark;
+        }
+        
+        .dark body {
+            background-color: #111827;
+            color: #ffffff;
+        }
+        
+        /* Light theme styles */
+        .light {
+            color-scheme: light;
+        }
+        
+        .light body {
+            background-color: #ffffff;
+            color: #111827;
+        }
+        
+        /* Dynamic scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .dark ::-webkit-scrollbar-track {
+            background: #374151;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb {
+            background: #6b7280;
+            border-radius: 4px;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+        
+        .light ::-webkit-scrollbar-track {
+            background: #f3f4f6;
+        }
+        
+        .light ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 4px;
+        }
+        
+        .light ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+    </style>
+</head>
+<body class="dark:bg-gray-900 dark:text-white light:bg-white light:text-gray-900 min-h-screen antialiased transition-colors duration-300">
+    <div class="container mx-auto px-4 py-8">
+        @yield('content')
     </div>
-
-    {{-- Notificações de sucesso --}}
+    
     @if(session('success'))
         <div x-data="{ show: true }" 
              x-show="show" 
@@ -28,42 +117,7 @@
             {{ session('success') }}
         </div>
     @endif
-
-    {{-- Script para Dark Mode --}}
-    <script>
-        function toggleDarkMode() {
-            const html = document.documentElement;
-            
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                localStorage.setItem('darkMode', 'false');
-                console.log('Dark mode OFF');
-            } else {
-                html.classList.add('dark');
-                localStorage.setItem('darkMode', 'true');
-                console.log('Dark mode ON');
-            }
-        }
-
-        // Aplicar dark mode salvo ou preferência do sistema
-        function initDarkMode() {
-            const savedMode = localStorage.getItem('darkMode');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            
-            if (savedMode === 'true' || (!savedMode && prefersDark)) {
-                document.documentElement.classList.add('dark');
-                console.log('Dark mode aplicado no carregamento');
-            } else {
-                document.documentElement.classList.remove('dark');
-                console.log('Light mode aplicado no carregamento');
-            }
-        }
-
-        // Executar imediatamente para evitar flash
-        initDarkMode();
-        
-        // Executar novamente quando o DOM carregar (garantia)
-        document.addEventListener('DOMContentLoaded', initDarkMode);
-    </script>
+    
+    @stack('scripts')
 </body>
 </html>

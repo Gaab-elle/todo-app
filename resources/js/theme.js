@@ -59,10 +59,15 @@ class ThemeManager {
     updateToggleButton(theme) {
         const toggleButtons = document.querySelectorAll('.theme-toggle');
         toggleButtons.forEach(button => {
+            const darkIcon = button.querySelector('.theme-icon-dark');
+            const lightIcon = button.querySelector('.theme-icon-light');
+            
             if (theme === 'light') {
-                button.classList.add('light');
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
             } else {
-                button.classList.remove('light');
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
             }
         });
     }

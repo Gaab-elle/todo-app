@@ -1,0 +1,501 @@
+/* Floating Action Button Styles */
+.fab-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+}
+
+.fab-main {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.fab-main:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.fab-main:active {
+    transform: scale(0.95);
+}
+
+.fab-main.open {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+}
+
+.fab-icon {
+    width: 24px;
+    height: 24px;
+    color: white;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fab-main.open .fab-icon {
+    transform: rotate(45deg);
+}
+
+.fab-menu {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.fab-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+.fab-item {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+}
+
+.fab-item:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.fab-item:active {
+    transform: scale(0.95);
+}
+
+.fab-item.home {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.fab-item.tasks {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.fab-item.new-project {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.fab-item.create-task {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.fab-item-icon {
+    width: 20px;
+    height: 20px;
+    color: white;
+}
+
+.fab-tooltip {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.fab-tooltip::after {
+    content: '';
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-left-color: rgba(0, 0, 0, 0.8);
+}
+
+.fab-item:hover .fab-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Dark mode adjustments */
+.dark .fab-main {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dark .fab-main:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dark .fab-item {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark .fab-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Light mode adjustments */
+.light .fab-main {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.light .fab-main:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.light .fab-item {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.light .fab-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Animation delays for staggered effect */
+.fab-item:nth-child(1) {
+    transition-delay: 0.05s;
+}
+
+.fab-item:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.fab-item:nth-child(3) {
+    transition-delay: 0.15s;
+}
+
+.fab-item:nth-child(4) {
+    transition-delay: 0.2s;
+}
+
+.fab-menu.open .fab-item:nth-child(1) {
+    transition-delay: 0.05s;
+}
+
+.fab-menu.open .fab-item:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.fab-menu.open .fab-item:nth-child(3) {
+    transition-delay: 0.15s;
+}
+
+.fab-menu.open .fab-item:nth-child(4) {
+    transition-delay: 0.2s;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .fab-container {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .fab-main {
+        width: 52px;
+        height: 52px;
+    }
+    
+    .fab-item {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .fab-tooltip {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .fab-container {
+        bottom: 16px;
+        right: 16px;
+    }
+    
+    .fab-main {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .fab-item {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .fab-item-icon {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Task Modal Styles */
+.task-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.task-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.task-modal-content {
+    background: white;
+    border-radius: 19px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.task-modal.show .task-modal-content {
+    transform: scale(1);
+}
+
+.task-modal-header {
+    background: #14376d;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-top-left-radius: 19px;
+    border-top-right-radius: 19px;
+    border-bottom: 5px solid #205ab4;
+    position: relative;
+}
+
+.task-modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.task-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.task-modal-close:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.task-form {
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    background-color: #f8fafc;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.btn-cancel,
+.btn-submit {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
+.btn-cancel:hover {
+    background-color: #e5e7eb;
+}
+
+.btn-submit {
+    background-color: #205ab4;
+    color: white;
+    box-shadow: 4px 9px 8px -4px rgba(0,0,0,0.75);
+}
+
+.btn-submit:hover {
+    background-color: #7FACDE;
+    transform: translateY(-1px);
+}
+
+/* Dark mode adjustments for modal */
+.dark .task-modal-content {
+    background: #1f2937;
+}
+
+.dark .form-group label {
+    color: #f9fafb;
+}
+
+.dark .form-group input,
+.dark .form-group select,
+.dark .form-group textarea {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+}
+
+.dark .form-group input:focus,
+.dark .form-group select:focus,
+.dark .form-group textarea:focus {
+    background-color: #4b5563;
+    border-color: #667eea;
+}
+
+.dark .btn-cancel {
+    background-color: #374151;
+    color: #f9fafb;
+}
+
+.dark .btn-cancel:hover {
+    background-color: #4b5563;
+}
+
+/* Notification styles */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    z-index: 3000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification-success {
+    background-color: #10b981;
+}
+
+.notification-error {
+    background-color: #ef4444;
+}
+
+.notification-info {
+    background-color: #3b82f6;
+}
+
+/* Responsive modal */
+@media (max-width: 768px) {
+    .task-modal-content {
+        width: 95%;
+        margin: 20px;
+    }
+    
+    .task-form {
+        padding: 20px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn-cancel,
+    .btn-submit {
+        width: 100%;
+    }
+}

@@ -11,32 +11,41 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::orderBy('created_at', 'desc')->get();
+        $search = $request->get('search');
         
+        $tasks = Task::with(['project', 'subtasks', 'dependencies.dependsOnTask'])
+            ->search($search)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        $projects = \App\Models\Project::active()->orderBy('name')->get();
         $availableLocales = config('app.available_locales');
         $currentLocale = app()->getLocale();
         
-        return view('tasks.index', compact('tasks', 'availableLocales', 'currentLocale'));
+        return view('tasks.index', compact('tasks', 'projects', 'availableLocales', 'currentLocale', 'search'));
     }
 
-    public function kanban()
+    public function kanban(Request $request)
     {
-        $tasks = Task::orderBy('created_at', 'desc')->get();
+        $search = $request->get('search');
+        
+        $tasks = Task::search($search)->orderBy('created_at', 'desc')->get();
         
         // Group tasks by status for Kanban view
         $tasksByStatus = [
-            'pending' => Task::byStatus('pending')->orderBy('created_at', 'desc')->get(),
-            'in_progress' => Task::byStatus('in_progress')->orderBy('created_at', 'desc')->get(),
-            'review' => Task::byStatus('review')->orderBy('created_at', 'desc')->get(),
-            'completed' => Task::byStatus('completed')->orderBy('created_at', 'desc')->get(),
+            'pending' => Task::search($search)->byStatus('pending')->orderBy('created_at', 'desc')->get(),
+            'in_progress' => Task::search($search)->byStatus('in_progress')->orderBy('created_at', 'desc')->get(),
+            'review' => Task::search($search)->byStatus('review')->orderBy('created_at', 'desc')->get(),
+            'completed' => Task::search($search)->byStatus('completed')->orderBy('created_at', 'desc')->get(),
         ];
         
         return view('tasks.kanban', [
             'tasks' => $tasks,
             'tasksByStatus' => $tasksByStatus,
             'currentLocale' => App::getLocale(),
+            'search' => $search,
             'availableLocales' => config('app.available_locales')
         ]);
     }
@@ -64,8 +73,17 @@ class TaskController extends Controller
             'description' => 'nullable|string',
             'priority' => 'required|in:low,medium,high',
             'due_date' => 'nullable|date',
-            'status' => 'nullable|in:pending,in_progress,review,completed'
+            'status' => 'nullable|in:pending,in_progress,review,completed',
+            'tags' => 'nullable|string',
+            'project_id' => 'nullable|exists:projects,id'
         ]);
+
+        // Process tags - convert comma-separated string to array
+        if (!empty($validated['tags'])) {
+            $validated['tags'] = array_map('trim', explode(',', $validated['tags']));
+        } else {
+            $validated['tags'] = [];
+        }
 
         $task = Task::create($validated);
 
@@ -145,7 +163,11 @@ class TaskController extends Controller
         $task->update($validated);
 
         if ($request->expectsJson()) {
-            return response()->json($task);
+            return response()->json([
+                'success' => true,
+                'message' => __('messages.task_status_updated'),
+                'task' => $task
+            ]);
         }
 
         return redirect()->route('tasks.index')

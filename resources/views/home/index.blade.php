@@ -5,9 +5,8 @@
 @section('content')
 <div class="max-w-6xl mx-auto animate-fade-in font-poppins">
     <!-- Navigation -->
-    <nav class="mb-8 animate-slide-up">
-        <div class="bg-glass backdrop-blur-md rounded-2xl dark:border-white/10 light:border-black/10 p-6 shadow-glass">
-            <div class="flex items-center justify-between">
+    <nav class="mb-8">
+        <div class="flex items-center justify-between">
             <div class="flex items-center space-x-6">
                 <a href="{{ route('home.index') }}" 
                    class="flex items-center space-x-2 text-white">
@@ -23,6 +22,13 @@
                     </svg>
                     <span>{{ __('messages.tasks') }}</span>
                 </a>
+                <a href="{{ route('tasks.kanban') }}" 
+                   class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-200">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"></path>
+                    </svg>
+                    <span>{{ __('messages.kanban_board') }}</span>
+                </a>
                 <a href="{{ route('stats.index') }}" 
                    class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-200">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -36,29 +42,26 @@
             <div class="flex items-center space-x-6">
                 <!-- Theme Toggle -->
                 <div class="flex items-center space-x-3">
-                    <span class="text-sm dark:text-gray-400 light:text-gray-600 font-medium">{{ __('messages.theme') }}:</span>
-                    <button class="theme-toggle" title="{{ __('messages.toggle_theme') }}">
-                        <div class="theme-toggle-slider"></div>
-                        <svg class="theme-toggle-icon theme-toggle-moon" fill="currentColor" viewBox="0 0 20 20">
+                    <span class="text-sm text-gray-400">{{ __('messages.theme') }}:</span>
+                    <button class="theme-toggle bg-gray-700 hover:bg-gray-600 p-2 rounded-lg transition-all duration-200" title="{{ __('messages.toggle_theme') }}">
+                        <svg class="w-5 h-5 text-white theme-icon-dark" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" clip-rule="evenodd"></path>
                         </svg>
-                        <svg class="theme-toggle-icon theme-toggle-sun" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-5 h-5 text-white theme-icon-light hidden" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
                         </svg>
                     </button>
                 </div>
                 
                 <!-- Language Switcher -->
-                <div class="flex items-center space-x-3">
-                    <span class="text-sm dark:text-gray-400 light:text-gray-600 font-medium">{{ __('messages.language') }}:</span>
-                    <div class="flex space-x-2">
-                        @foreach($availableLocales as $locale)
-                            <a href="{{ route('locale.switch', $locale) }}" 
-                               class="px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 {{ $currentLocale === $locale ? 'bg-gradient-primary text-white shadow-glow' : 'bg-glass-dark dark:text-gray-300 light:text-gray-700 hover:bg-glass dark:hover:text-white light:hover:text-gray-900 hover:scale-105' }}">
-                                {{ strtoupper($locale) }}
-                            </a>
-                        @endforeach
-                    </div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-gray-400">{{ __('messages.language') }}:</span>
+                    @foreach($availableLocales as $locale)
+                        <a href="{{ route('locale.switch', $locale) }}" 
+                           class="px-3 py-1 text-sm rounded {{ $currentLocale === $locale ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600' }}">
+                            {{ strtoupper($locale) }}
+                        </a>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -66,7 +69,7 @@
 
     <!-- Header -->
     <div class="mb-12 text-center animate-slide-up">
-        <h1 class="text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-6 animate-float">{{ __('messages.app_title') }}</h1>
+        <h1 class="text-6xl font-bold text-white mb-6 animate-float">{{ __('messages.app_title') }}</h1>
         <p class="text-gray-300 text-xl font-medium">{{ __('messages.app_subtitle') }}</p>
     </div>
 

@@ -333,6 +333,12 @@
     -webkit-text-fill-color: transparent;
 }
 
+/* Remove purple background in light mode */
+.light .bg-gradient-to-br.from-slate-900.via-purple-900.to-slate-900,
+:not(.dark) .bg-gradient-to-br.from-slate-900.via-purple-900.to-slate-900 {
+    background: linear-gradient(to bottom right, #f3f4f6, #e5e7eb, #d1d5db) !important;
+}
+
 /* Professional Dashboard Styles */
 .dashboard-card {
     transition: all 0.3s ease;

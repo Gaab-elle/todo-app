@@ -4,6 +4,9 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SubtaskController;
+use App\Http\Controllers\TaskTemplateController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 
@@ -36,3 +39,20 @@ Route::get('/stats', [StatsController::class, 'index'])->name('stats.index');
 Route::post('/theme/toggle', [ThemeController::class, 'toggle'])->name('theme.toggle');
 Route::post('/theme/set', [ThemeController::class, 'setTheme'])->name('theme.set');
 Route::get('/theme/current', [ThemeController::class, 'getCurrentTheme'])->name('theme.current');
+
+// Rotas de projetos
+Route::resource('projects', ProjectController::class);
+Route::patch('/projects/{project}/toggle-favorite', [ProjectController::class, 'toggleFavorite'])->name('projects.toggle-favorite');
+
+// Rotas de subtarefas
+Route::resource('subtasks', SubtaskController::class);
+Route::patch('/subtasks/{subtask}/toggle', [SubtaskController::class, 'toggle'])->name('subtasks.toggle');
+
+// Rotas de templates
+Route::resource('templates', TaskTemplateController::class);
+Route::post('/templates/{template}/create-task', [TaskTemplateController::class, 'createTask'])->name('templates.createTask');
+
+// API routes for FAB
+Route::get('/api/projects', function() {
+    return \App\Models\Project::where('is_active', true)->select('id', 'name')->get();
+});

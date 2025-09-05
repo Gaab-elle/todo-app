@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    @vite(['resources/css/app.css', 'resources/css/custom.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/custom.css', 'resources/css/fab.css', 'resources/js/app.js', 'resources/js/fab.js'])
     
     @stack('styles')
     
@@ -39,7 +39,11 @@
             'title': '{{ __("messages.title") }}',
             'description': '{{ __("messages.description") }}',
             'priority': '{{ __("messages.priority") }}',
-            'dueDate': '{{ __("messages.due_date") }}'
+            'dueDate': '{{ __("messages.due_date") }}',
+            'goHome': '{{ __("messages.go_home") }}',
+            'viewTasks': '{{ __("messages.view_tasks") }}',
+            'createProject': '{{ __("messages.create_project") }}',
+            'viewStats': '{{ __("messages.view_stats") }}'
         };
     </script>
     
@@ -67,8 +71,97 @@
         }
         
         .light body {
-            background-color: #ffffff;
-            color: #111827;
+            background-color: #f8fafc;
+            color: #1f2937;
+        }
+        
+        .light .bg-gray-700 {
+            background-color: #9ca3af;
+        }
+        
+        .light .bg-gray-800 {
+            background-color: #d1d5db;
+        }
+        
+        /* Cards - Darker in light mode */
+        .light .bg-gray-800\/50 {
+            background-color: rgba(209, 213, 219, 0.8);
+        }
+        
+        .light .bg-gray-800\/30 {
+            background-color: rgba(209, 213, 219, 0.6);
+        }
+        
+        .light .bg-gray-700\/50 {
+            background-color: rgba(156, 163, 175, 0.8);
+        }
+        
+        .light .bg-gray-700\/30 {
+            background-color: rgba(156, 163, 175, 0.6);
+        }
+        
+        .light .text-white {
+            color: #000000;
+        }
+        
+        .light .text-gray-300 {
+            color: #000000;
+        }
+        
+        .light .text-gray-400 {
+            color: #000000;
+        }
+        
+        .light .border-gray-600 {
+            border-color: #d1d5db;
+        }
+        
+        /* Placeholder colors for light theme */
+        .light .placeholder-gray-600::placeholder {
+            color: #6b7280;
+        }
+        
+        /* Text colors for light theme */
+        .light .text-gray-800 {
+            color: #000000;
+        }
+        
+        .light .text-gray-700 {
+            color: #000000;
+        }
+        
+        .light .text-gray-600 {
+            color: #000000;
+        }
+        
+        /* Additional text colors for light theme */
+        .light .text-gray-500 {
+            color: #000000;
+        }
+        
+        .light .text-gray-200 {
+            color: #000000;
+        }
+        
+        .light .text-gray-100 {
+            color: #000000;
+        }
+        
+        /* Dark theme overrides */
+        .dark .placeholder-gray-600::placeholder {
+            color: #9ca3af;
+        }
+        
+        .dark .text-gray-800 {
+            color: #f9fafb;
+        }
+        
+        .dark .text-gray-700 {
+            color: #e5e7eb;
+        }
+        
+        .dark .text-gray-600 {
+            color: #d1d5db;
         }
         
         /* Dynamic scrollbar styles */
@@ -103,7 +196,7 @@
         }
     </style>
 </head>
-<body class="dark:bg-gray-900 dark:text-white light:bg-white light:text-gray-900 min-h-screen antialiased transition-colors duration-300">
+<body class="min-h-screen antialiased transition-colors duration-300">
     <div class="container mx-auto px-4 py-8">
         @yield('content')
     </div>

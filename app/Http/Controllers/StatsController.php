@@ -30,7 +30,7 @@ class StatsController extends Controller
         
         // Tasks created by month (last 6 months)
         $monthlyStats = Task::select(
-                DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
+                DB::raw('strftime("%Y-%m", created_at) as month'),
                 DB::raw('count(*) as count')
             )
             ->where('created_at', '>=', now()->subMonths(6))
@@ -46,7 +46,7 @@ class StatsController extends Controller
         // Average completion time (in days)
         $avgCompletionTime = Task::completed()
             ->whereNotNull('created_at')
-            ->selectRaw('AVG(DATEDIFF(updated_at, created_at)) as avg_days')
+            ->selectRaw('AVG((julianday(updated_at) - julianday(created_at))) as avg_days')
             ->value('avg_days');
         
         return view('stats.index', [

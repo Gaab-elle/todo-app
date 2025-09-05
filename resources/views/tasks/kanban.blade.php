@@ -31,15 +31,31 @@
                 </a>
             </div>
             
-            <!-- Language Switcher -->
-            <div class="flex items-center space-x-2">
-                <span class="text-sm text-gray-400">{{ __('messages.language') }}:</span>
-                @foreach($availableLocales as $locale)
-                    <a href="{{ route('locale.switch', $locale) }}" 
-                       class="px-3 py-1 text-sm rounded {{ $currentLocale === $locale ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600' }}">
-                        {{ strtoupper($locale) }}
-                    </a>
-                @endforeach
+            <!-- Theme Toggle and Language Switcher -->
+            <div class="flex items-center space-x-6">
+                <!-- Theme Toggle -->
+                <div class="flex items-center space-x-3">
+                    <span class="text-sm text-gray-400">{{ __('messages.theme') }}:</span>
+                    <button class="theme-toggle bg-gray-700 hover:bg-gray-600 p-2 rounded-lg transition-all duration-200" title="{{ __('messages.toggle_theme') }}">
+                        <svg class="w-5 h-5 text-white theme-icon-dark" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg class="w-5 h-5 text-white theme-icon-light hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Language Switcher -->
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-gray-400">{{ __('messages.language') }}:</span>
+                    @foreach($availableLocales as $locale)
+                        <a href="{{ route('locale.switch', $locale) }}" 
+                           class="px-3 py-1 text-sm rounded {{ $currentLocale === $locale ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600' }}">
+                            {{ strtoupper($locale) }}
+                        </a>
+                    @endforeach
+                </div>
             </div>
         </div>
     </nav>
@@ -50,86 +66,38 @@
         <p class="text-gray-400">{{ __('messages.drag_drop_tasks') }}</p>
     </div>
 
-    <!-- Add Task Form -->
-    <div class="bg-gray-800 rounded-lg p-6 mb-8 shadow-lg">
-        <h2 class="text-xl font-semibold text-white mb-4">{{ __('messages.add_new_task') }}</h2>
-        
-        <form action="{{ route('tasks.store') }}" method="POST" class="space-y-4">
-            @csrf
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                    <label for="title" class="block text-sm font-medium text-gray-300 mb-2">
-                        {{ __('messages.title') }} *
-                    </label>
-                    <input type="text" 
-                           id="title" 
-                           name="title" 
-                           required
-                           class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                           placeholder="{{ __('messages.enter_task_title') }}">
-                </div>
-                
-                <div>
-                    <label for="priority" class="block text-sm font-medium text-gray-300 mb-2">
-                        {{ __('messages.priority') }} *
-                    </label>
-                    <select id="priority" 
-                            name="priority" 
-                            required
-                            class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <option value="">{{ __('messages.select_priority') }}</option>
-                        <option value="low">{{ __('messages.low') }}</option>
-                        <option value="medium">{{ __('messages.medium') }}</option>
-                        <option value="high">{{ __('messages.high') }}</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="status" class="block text-sm font-medium text-gray-300 mb-2">
-                        {{ __('messages.status') }}
-                    </label>
-                    <select id="status" 
-                            name="status"
-                            class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <option value="pending">{{ __('messages.pending') }}</option>
-                        <option value="in_progress">{{ __('messages.in_progress') }}</option>
-                        <option value="review">{{ __('messages.review') }}</option>
-                        <option value="completed">{{ __('messages.completed') }}</option>
-                    </select>
-                </div>
+    <!-- Search Bar -->
+    <div class="bg-gray-700 rounded-2xl border border-gray-600 p-6 mb-8 shadow-lg">
+        <form method="GET" action="{{ route('tasks.kanban') }}" class="flex items-center space-x-4">
+            <div class="flex-1 relative">
+                <input type="text" 
+                       name="search" 
+                       value="{{ $search ?? '' }}"
+                       placeholder="{{ __('messages.search_placeholder') }}"
+                       class="w-full px-4 py-3 pl-12 bg-gray-800/50 backdrop-blur-sm border border-gray-600/50 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400/50 focus:bg-gray-700/50 transition-all duration-300 hover:bg-gray-700/30">
+                <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label for="description" class="block text-sm font-medium text-gray-300 mb-2">
-                        {{ __('messages.description') }}
-                    </label>
-                    <textarea id="description" 
-                              name="description" 
-                              rows="3"
-                              class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                              placeholder="{{ __('messages.describe_task') }}"></textarea>
-                </div>
-                
-                <div>
-                    <label for="due_date" class="block text-sm font-medium text-gray-300 mb-2">
-                        {{ __('messages.due_date') }}
-                    </label>
-                    <input type="date" 
-                           id="due_date" 
-                           name="due_date"
-                           class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                </div>
-            </div>
-            
-            <div class="flex justify-end">
-                <button type="submit" 
-                        class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800">
-                    {{ __('messages.create_task') }}
-                </button>
-            </div>
+            <button type="submit" 
+                    class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-transparent hover:scale-105 transform">
+                {{ __('messages.search') }}
+            </button>
+            @if(!empty($search))
+                <a href="{{ route('tasks.kanban') }}" 
+                   class="px-4 py-3 bg-gray-600 hover:bg-gray-500 text-white font-semibold rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500/50 focus:ring-offset-2 focus:ring-offset-transparent hover:scale-105 transform">
+                    {{ __('messages.clear_search') }}
+                </a>
+            @endif
         </form>
+        
+        @if(!empty($search))
+            <div class="mt-4 text-sm text-gray-400">
+                {{ __('messages.search_results') }}: "{{ $search }}" ({{ $tasks->count() }} {{ $tasks->count() === 1 ? 'resultado' : 'resultados' }})
+            </div>
+        @endif
     </div>
+
 
     <!-- Kanban Board -->
     <div class="drag-container">
@@ -152,6 +120,16 @@
                                 </div>
                                 @if($task->description)
                                     <p class="task-description">{{ $task->description }}</p>
+                                @endif
+                                
+                                @if($task->tags && count($task->tags) > 0)
+                                    <div class="flex flex-wrap gap-1 mb-3">
+                                        @foreach($task->tags as $tag)
+                                            <span class="px-2 py-1 text-xs font-medium bg-blue-600/20 text-blue-300 rounded-full border border-blue-500/30">
+                                                #{{ $tag }}
+                                            </span>
+                                        @endforeach
+                                    </div>
                                 @endif
                                 <div class="task-footer">
                                     @if($task->due_date)
@@ -192,6 +170,16 @@
                                 @if($task->description)
                                     <p class="task-description">{{ $task->description }}</p>
                                 @endif
+                                
+                                @if($task->tags && count($task->tags) > 0)
+                                    <div class="flex flex-wrap gap-1 mb-3">
+                                        @foreach($task->tags as $tag)
+                                            <span class="px-2 py-1 text-xs font-medium bg-blue-600/20 text-blue-300 rounded-full border border-blue-500/30">
+                                                #{{ $tag }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @endif
                                 <div class="task-footer">
                                     @if($task->due_date)
                                         <span class="due-date {{ $task->due_date < now() ? 'overdue' : '' }}">
@@ -231,6 +219,16 @@
                                 @if($task->description)
                                     <p class="task-description">{{ $task->description }}</p>
                                 @endif
+                                
+                                @if($task->tags && count($task->tags) > 0)
+                                    <div class="flex flex-wrap gap-1 mb-3">
+                                        @foreach($task->tags as $tag)
+                                            <span class="px-2 py-1 text-xs font-medium bg-blue-600/20 text-blue-300 rounded-full border border-blue-500/30">
+                                                #{{ $tag }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @endif
                                 <div class="task-footer">
                                     @if($task->due_date)
                                         <span class="due-date {{ $task->due_date < now() ? 'overdue' : '' }}">
@@ -269,6 +267,16 @@
                                 </div>
                                 @if($task->description)
                                     <p class="task-description">{{ $task->description }}</p>
+                                @endif
+                                
+                                @if($task->tags && count($task->tags) > 0)
+                                    <div class="flex flex-wrap gap-1 mb-3">
+                                        @foreach($task->tags as $tag)
+                                            <span class="px-2 py-1 text-xs font-medium bg-blue-600/20 text-blue-300 rounded-full border border-blue-500/30">
+                                                #{{ $tag }}
+                                            </span>
+                                        @endforeach
+                                    </div>
                                 @endif
                                 <div class="task-footer">
                                     @if($task->due_date)

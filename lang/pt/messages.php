@@ -2,8 +2,17 @@
 
 return [
     // Títulos principais
+    'app_title' => 'Todo App',
+    'home' => 'Início',
+    'tasks' => 'Tarefas',
+    'projects' => 'Projetos',
+    'statistics' => 'Estatísticas',
     'my_tasks' => 'Minhas Tarefas',
     'add_new_task' => 'Adicionar Nova Tarefa',
+    'manage_tasks_efficiently' => 'Gerencie suas tarefas de forma eficiente',
+    'organize_your_work' => 'Organize seu trabalho com facilidade',
+    'task_progress' => 'Progresso das Tarefas',
+    'recent_activity' => 'Atividade Recente',
     
     // Campos do formulário
     'title' => 'Título',
@@ -101,6 +110,23 @@ return [
     'no_results' => 'Nenhum resultado encontrado',
     'clear_search' => 'Limpar busca',
     'search' => 'Pesquisar',
+    'no_tasks_found' => 'Nenhuma tarefa encontrada',
+    'no_tasks_description' => 'Não há tarefas para exibir no momento.',
+    'create_first_task' => 'Criar Primeira Tarefa',
+    'loading' => 'Carregando',
+    'error' => 'Erro',
+    'try_again' => 'Tentar Novamente',
+    'mark_completed' => 'Marcar como Concluída',
+    
+    // Kanban specific
+    'urgent' => 'Urgente',
+    'describe_task' => 'Descreva a Tarefa...',
+    'all_tasks' => 'TODAS AS TAREFAS',
+    'will_be_deleted' => 'SERÃO DELETADAS...',
+    'dont_show_again' => 'NÃO MOSTRAR ESTA MENSAGEM NOVAMENTE',
+    'help' => 'AJUDA',
+    'import_board' => 'IMPORTAR QUADRO',
+    'export_board' => 'EXPORTAR QUADRO',
     
     // Botão Flutuante
     'quick_actions' => 'Ações Rápidas',
@@ -226,4 +252,14 @@ return [
     'project_favorited' => 'Projeto adicionado aos favoritos!',
     'project_unfavorited' => 'Projeto removido dos favoritos!',
     'favorites' => 'Favoritos',
+    
+    // Estados vazios das colunas
+    'no_pending_tasks' => 'Nenhuma tarefa pendente',
+    'no_in_progress_tasks' => 'Nenhuma tarefa em progresso',
+    'no_review_tasks' => 'Nenhuma tarefa em revisão',
+    'no_completed_tasks' => 'Nenhuma tarefa concluída',
+    
+    // Formulário de tarefa
+    'enter_task_description' => 'Digite a descrição da tarefa...',
+    'save_task' => 'Salvar Tarefa',
 ];

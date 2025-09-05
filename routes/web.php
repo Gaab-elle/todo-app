@@ -24,12 +24,14 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
 // Rotas das tarefas
 Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+Route::get('/tasks/vue', [TaskController::class, 'vue'])->name('tasks.vue');
 Route::get('/tasks/pro', [TaskController::class, 'professional'])->name('tasks.professional');
 Route::get('/tasks/kanban', [TaskController::class, 'kanban'])->name('tasks.kanban');
 Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
 Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
 Route::patch('/tasks/{task}/toggle', [TaskController::class, 'toggle'])->name('tasks.toggle');
 Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
+Route::patch('/tasks/{task}/toggle-favorite', [TaskController::class, 'toggleFavorite'])->name('tasks.toggleFavorite');
 Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 
 // Rotas de estatísticas
@@ -56,3 +58,7 @@ Route::post('/templates/{template}/create-task', [TaskTemplateController::class,
 Route::get('/api/projects', function() {
     return \App\Models\Project::where('is_active', true)->select('id', 'name')->get();
 });
+
+// API routes for Vue.js
+Route::get('/api/tasks', [TaskController::class, 'apiIndex'])->name('api.tasks.index');
+Route::get('/api/projects', [ProjectController::class, 'apiIndex'])->name('api.projects.index');

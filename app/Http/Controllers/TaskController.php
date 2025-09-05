@@ -100,14 +100,25 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'priority' => 'required|in:low,medium,high',
-            'due_date' => 'nullable|date'
+        \Log::info('Task update request received', [
+            'task_id' => $task->id,
+            'request_data' => $request->all(),
+            'request_headers' => $request->headers->all()
         ]);
 
+        $validated = $request->validate([
+            'title' => 'sometimes|required|string|max:255',
+            'description' => 'nullable|string',
+            'priority' => 'sometimes|required|in:low,medium,high',
+            'due_date' => 'nullable|date',
+            'is_favorite' => 'nullable|boolean'
+        ]);
+
+        \Log::info('Validation passed', ['validated_data' => $validated]);
+
         $task->update($validated);
+
+        \Log::info('Task updated successfully', ['task' => $task->toArray()]);
 
         if ($request->expectsJson()) {
             return response()->json($task);
@@ -137,6 +148,37 @@ class TaskController extends Controller
     }
 
     /**
+     * Toggle the favorite status of the task.
+     */
+    public function toggleFavorite(Task $task)
+    {
+        \Log::info('Toggle favorite called', [
+            'task_id' => $task->id,
+            'current_favorite' => $task->is_favorite
+        ]);
+
+        $task->update([
+            'is_favorite' => !$task->is_favorite
+        ]);
+
+        \Log::info('Favorite toggled successfully', [
+            'task_id' => $task->id,
+            'new_favorite' => $task->is_favorite
+        ]);
+
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'is_favorite' => $task->is_favorite,
+                'message' => $task->is_favorite ? 'Tarefa adicionada aos favoritos' : 'Tarefa removida dos favoritos'
+            ]);
+        }
+
+        return redirect()->route('tasks.index')
+            ->with('success', $task->is_favorite ? __('messages.task_favorited') : __('messages.task_unfavorited'));
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Task $task)
@@ -156,11 +198,22 @@ class TaskController extends Controller
      */
     public function updateStatus(Request $request, Task $task)
     {
+        \Log::info('UpdateStatus called', [
+            'task_id' => $task->id,
+            'request_data' => $request->all(),
+            'method' => $request->method(),
+            'headers' => $request->headers->all()
+        ]);
+
         $validated = $request->validate([
             'status' => 'required|in:pending,in_progress,review,completed'
         ]);
 
+        \Log::info('Validation passed', ['validated' => $validated]);
+
         $task->update($validated);
+
+        \Log::info('Task updated', ['task' => $task->toArray()]);
 
         if ($request->expectsJson()) {
             return response()->json([
@@ -172,5 +225,25 @@ class TaskController extends Controller
 
         return redirect()->route('tasks.index')
             ->with('success', __('messages.task_status_updated'));
+    }
+
+    /**
+     * API endpoint to get all tasks with relationships.
+     */
+    public function apiIndex()
+    {
+        $tasks = Task::with(['project', 'subtasks'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($tasks);
+    }
+
+    /**
+     * Show the Vue.js tasks page.
+     */
+    public function vue()
+    {
+        return view('tasks.vue');
     }
 }

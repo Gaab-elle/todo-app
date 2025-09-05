@@ -148,4 +148,16 @@ class ProjectController extends Controller
             return back()->with('error', 'Erro ao atualizar favorito');
         }
     }
+
+    /**
+     * API endpoint to get all projects.
+     */
+    public function apiIndex()
+    {
+        $projects = Project::where('is_active', true)
+            ->orderBy('name')
+            ->get();
+
+        return response()->json($projects);
+    }
 }

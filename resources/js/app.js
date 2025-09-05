@@ -9,3 +9,5 @@ window.__ = function(key) {
 
 window.Alpine = Alpine;
 Alpine.start();
+
+// Vue.js setup is now handled in vue-app.js

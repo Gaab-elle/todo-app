@@ -2,8 +2,17 @@
 
 return [
     // Main titles
+    'app_title' => 'Todo App',
+    'home' => 'Home',
+    'tasks' => 'Tasks',
+    'projects' => 'Projects',
+    'statistics' => 'Statistics',
     'my_tasks' => 'My Tasks',
     'add_new_task' => 'Add New Task',
+    'manage_tasks_efficiently' => 'Manage your tasks efficiently',
+    'organize_your_work' => 'Organize your work with ease',
+    'task_progress' => 'Task Progress',
+    'recent_activity' => 'Recent Activity',
     
     // Form fields
     'title' => 'Title',
@@ -101,6 +110,23 @@ return [
     'no_results' => 'No results found',
     'clear_search' => 'Clear search',
     'search' => 'Search',
+    'no_tasks_found' => 'No tasks found',
+    'no_tasks_description' => 'There are no tasks to display at the moment.',
+    'create_first_task' => 'Create First Task',
+    'loading' => 'Loading',
+    'error' => 'Error',
+    'try_again' => 'Try Again',
+    'mark_completed' => 'Mark as Completed',
+    
+    // Kanban specific
+    'urgent' => 'Urgent',
+    'describe_task' => 'Describe the Task...',
+    'all_tasks' => 'ALL TASKS',
+    'will_be_deleted' => 'WILL BE DELETED...',
+    'dont_show_again' => 'DON\'T SHOW THIS MESSAGE AGAIN',
+    'help' => 'HELP',
+    'import_board' => 'IMPORT BOARD',
+    'export_board' => 'EXPORT BOARD',
     
     // Floating Action Button
     'quick_actions' => 'Quick Actions',
@@ -252,4 +278,14 @@ return [
     'project_favorited' => 'Project added to favorites!',
     'project_unfavorited' => 'Project removed from favorites!',
     'favorites' => 'Favorites',
+    
+    // Empty column states
+    'no_pending_tasks' => 'No pending tasks',
+    'no_in_progress_tasks' => 'No tasks in progress',
+    'no_review_tasks' => 'No tasks in review',
+    'no_completed_tasks' => 'No completed tasks',
+    
+    // Task form
+    'enter_task_description' => 'Enter task description...',
+    'save_task' => 'Save Task',
 ];

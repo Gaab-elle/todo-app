@@ -19,13 +19,15 @@ class Task extends Model
         'due_date',
         'status',
         'tags',
-        'project_id'
+        'project_id',
+        'is_favorite'
     ];
 
     protected $casts = [
         'completed' => 'boolean',
         'due_date' => 'datetime',
-        'tags' => 'array'
+        'tags' => 'array',
+        'is_favorite' => 'boolean'
     ];
 
     public function scopeCompleted($query)

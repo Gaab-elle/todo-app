@@ -21,7 +21,11 @@ class AuthController extends Controller
             return redirect()->route('home.index');
         }
         
-        return view('auth.login');
+        // Verificar se OAuth está configurado
+        $googleOAuthConfigured = !empty(config('services.google.client_id')) && !empty(config('services.google.client_secret'));
+        $githubOAuthConfigured = !empty(config('services.github.client_id')) && !empty(config('services.github.client_secret'));
+        
+        return view('auth.login', compact('googleOAuthConfigured', 'githubOAuthConfigured'));
     }
 
     /**

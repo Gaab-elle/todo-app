@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\GitHubService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -30,6 +31,20 @@ class PublicProfileController extends Controller
             ->limit(6)
             ->get();
 
+        // Get GitHub data if user has GitHub username
+        $githubService = new GitHubService();
+        $githubData = null;
+        $githubStats = null;
+        $githubRepos = null;
+        $githubLanguages = null;
+
+        if ($user->github_username) {
+            $githubData = $githubService->getUserProfile($user->github_username);
+            $githubStats = $githubService->getUserRepositoryStats($user->github_username);
+            $githubRepos = $githubService->getUserRepositories($user->github_username, 6);
+            $githubLanguages = $githubService->getUserLanguagesSummary($user->github_username);
+        }
+
         // Get user's skills
         $skills = $user->skills ?? [];
 
@@ -39,16 +54,16 @@ class PublicProfileController extends Controller
         // Get public stats
         $stats = $user->public_stats;
 
-        // Get GitHub data (always return mock data for now)
-        $githubData = $this->getGithubData($user);
-
         return view('profile.public', compact(
             'user',
             'projects',
             'skills',
             'experience',
             'stats',
-            'githubData'
+            'githubData',
+            'githubStats',
+            'githubRepos',
+            'githubLanguages'
         ));
     }
 

@@ -6,7 +6,7 @@
 <div class="min-h-screen">
     <!-- Top Bar -->
     <div class="bg-white/20 dark:bg-gray-900/80 dark:rounded-lg border-b border-gray-200/20 dark:border-gray-700/50 px-6 py-4 mb-6 dark:shadow-lg dark:backdrop-blur-sm">
-        <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
                     {{ __('messages.app_title') }}
@@ -16,8 +16,8 @@
                 </p>
             </div>
         </div>
-    </div>
-
+            </div>
+            
     <!-- Main Content -->
     <div class="p-6">
         <!-- Developer Stats Cards -->
@@ -35,8 +35,8 @@
                         </svg>
                     </div>
                 </div>
-            </div>
-
+                </div>
+                
             <!-- Active Projects -->
             <div class="bg-white/20 dark:bg-gray-900/80 dark:rounded-lg border border-gray-200/20 dark:border-gray-700/50 shadow-sm dark:shadow-lg dark:backdrop-blur-sm p-4">
                 <div class="flex items-center justify-between">
@@ -54,30 +54,30 @@
 
             <!-- Time Spent -->
             <div class="bg-white/20 dark:bg-gray-900/80 dark:rounded-lg border border-gray-200/20 dark:border-gray-700/50 shadow-sm dark:shadow-lg dark:backdrop-blur-sm p-4">
-                <div class="flex items-center justify-between">
-                    <div>
+            <div class="flex items-center justify-between">
+                <div>
                         <p class="text-sm text-gray-600 dark:text-gray-400">{{ __('messages.time_spent') }}</p>
                         <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $totalTimeSpentHours }}h</p>
-                    </div>
+                </div>
                     <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
                         <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
+                    </svg>
                 </div>
             </div>
+        </div>
 
             <!-- Completion Rate -->
             <div class="bg-white/20 dark:bg-gray-900/80 dark:rounded-lg border border-gray-200/20 dark:border-gray-700/50 shadow-sm dark:shadow-lg dark:backdrop-blur-sm p-4">
-                <div class="flex items-center justify-between">
-                    <div>
+            <div class="flex items-center justify-between">
+                <div>
                         <p class="text-sm text-gray-600 dark:text-gray-400">Taxa de Conclusão</p>
                         <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $completionRate }}%</p>
-                    </div>
+                </div>
                     <div class="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
                         <svg class="w-5 h-5 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                        </svg>
+                    </svg>
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    <div>
+                <div>
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white" id="active-session-project">Projeto Ativo</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400" id="active-session-name">Sessão de Trabalho</p>
                         <p class="text-xs text-gray-500 dark:text-gray-500" id="active-session-started">Iniciado há 0 minutos</p>
@@ -118,21 +118,21 @@
             <!-- My Tasks Section -->
             <div class="bg-white/20 dark:bg-gray-900/80 dark:rounded-lg border border-gray-200/20 dark:border-gray-700/50 shadow-sm dark:shadow-lg dark:backdrop-blur-sm">
                 <div class="p-6 border-b border-gray-200/50 dark:border-gray-700/50">
-                    <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-3">
                             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ __('messages.my_tasks') }}</h2>
                             <div class="w-6 h-6 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
                                 <svg class="w-3 h-3 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                                </svg>
-                            </div>
-                        </div>
+                    </svg>
+                </div>
+            </div>
                         <a href="{{ route('tasks.index') }}" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                             {{ __('messages.create_task') }}
                         </a>
-                    </div>
-                </div>
-                
+        </div>
+    </div>
+
                 <!-- Task Tabs -->
                 <div class="px-6 pt-4">
                     <div class="flex space-x-6 border-b border-gray-200/50 dark:border-gray-700/50">
@@ -171,7 +171,7 @@
                                             @endif
                                         </div>
                                         <div class="w-4 h-4 border border-gray-300 dark:border-gray-600 rounded-full"></div>
-                                    </div>
+        </div>
                                 @endforeach
                             @else
                                 <div class="text-center py-8">
@@ -179,10 +179,10 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                     <p class="text-gray-500 dark:text-gray-400">{{ __('messages.no_upcoming_tasks') }}</p>
-                                </div>
+        </div>
                             @endif
-                        </div>
-                        
+    </div>
+
                         @if($upcomingTasks->count() > 7)
                             <div class="mt-4 text-center">
                                 <a href="{{ route('tasks.index') }}" class="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium">
@@ -259,18 +259,18 @@
                                             @endif
                                         </div>
                                         <div class="w-4 h-4 border border-gray-300 dark:border-gray-600 rounded-full"></div>
-                                    </div>
-                                @endforeach
-                            @else
-                                <div class="text-center py-8">
-                                    <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                                    </svg>
-                                    <p class="text-gray-900 dark:text-gray-400">{{ __('messages.no_completed_tasks') }}</p>
-                                </div>
-                            @endif
                         </div>
-                        
+                    @endforeach
+            @else
+                <div class="text-center py-8">
+                    <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                                    <p class="text-gray-900 dark:text-gray-400">{{ __('messages.no_completed_tasks') }}</p>
+                </div>
+            @endif
+        </div>
+
                         @if($completedTasksList->count() > 7)
                             <div class="mt-4 text-center">
                                 <a href="{{ route('tasks.index') }}" class="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium">
@@ -352,7 +352,7 @@
                                 <div class="text-center py-8">
                                     <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                                    </svg>
+                        </svg>
                                     <p class="text-gray-500 dark:text-gray-400">{{ __('messages.no_active_projects') }}</p>
                                 </div>
                             @endif

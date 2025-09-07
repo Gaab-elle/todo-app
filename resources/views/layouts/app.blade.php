@@ -378,13 +378,13 @@
                         </div>
                         
                         <!-- Center: Search Bar -->
-                        <div class="flex-1 flex justify-center">
-                            <div class="relative w-full max-w-lg">
+                        <div class="flex-1 flex justify-center px-2 sm:px-4">
+                            <div class="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
                                 <form id="search-form" action="{{ route('search') }}" method="GET">
-                                    <input type="text" id="search-input" name="q" placeholder="{{ __('messages.search_placeholder') }}" class="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                    <input type="text" id="search-input" name="q" placeholder="{{ __('messages.search_placeholder') }}" class="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-1.5 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent">
                                 </form>
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="absolute inset-y-0 left-0 pl-2 sm:pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                     </svg>
                                 </div>
@@ -393,19 +393,6 @@
                         
                         <!-- Right: User Info, Theme Toggle, Language & Logout -->
                         <div class="flex items-center space-x-4 w-16 justify-end">
-                            <!-- User Info (Desktop only) -->
-                            <div class="hidden md:flex items-center space-x-2 text-sm">
-                                <div class="w-6 h-6 rounded-full overflow-hidden">
-                                    @if(auth()->user()->avatar)
-                                        <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover">
-                                    @else
-                                        <div class="w-full h-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                                            <span class="text-white text-xs font-medium">{{ auth()->user()->initials }}</span>
-                                        </div>
-                                    @endif
-                                </div>
-                                <span class="text-gray-700 dark:text-gray-300 font-medium">{{ auth()->user()->name ?? __('messages.user') }}</span>
-                            </div>
                             
                             <!-- Language Toggle -->
                             <div class="relative">

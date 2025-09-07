@@ -84,7 +84,11 @@ Route::get('/db-test', function () {
 
 // Welcome route for non-authenticated users
 Route::get('/', function () {
-    return 'NERDINO - Laravel funcionando!';
+    if (auth()->check()) {
+        return redirect()->route('home.index');
+    }
+    
+    return view('welcome');
 })->name('welcome');
 
 // Debug route

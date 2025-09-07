@@ -79,12 +79,17 @@ Route::get('/db-test', function () {
 
 // Welcome route for non-authenticated users
 Route::get('/', function () {
-    return response()->json([
-        'message' => 'NERDINO - Dev Project Manager',
-        'status' => 'running',
-        'version' => '1.0.0'
-    ]);
+    return 'NERDINO - Laravel funcionando!';
 })->name('welcome');
+
+// Debug route
+Route::get('/debug', function () {
+    return response()->json([
+        'php' => phpversion(),
+        'laravel' => app()->version(),
+        'status' => 'ok'
+    ]);
+});
 
 // Rota para mudança de idioma
 Route::get('/locale/{locale}', function ($locale) {

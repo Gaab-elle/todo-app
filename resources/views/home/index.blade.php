@@ -9,7 +9,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
-                    {{ date('l, j \d\e F') }}
+                    {{ __('messages.app_title') }}
                 </h1>
                 <p class="text-gray-600 dark:text-gray-300 mt-1">
                     E aí! Bora codar mais um dia de projetos?

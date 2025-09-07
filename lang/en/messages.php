@@ -2,7 +2,7 @@
 
 return [
     // Main titles
-    'app_title' => 'Dev Project Manager',
+    'app_title' => 'Nerdino - Dev Project Manager',
     'home' => 'Dashboard',
     'tasks' => 'Dev Tasks',
     'projects' => 'Projects',

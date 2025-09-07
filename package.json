@@ -1,5 +1,7 @@
 {
     "$schema": "https://json.schemastore.org/package.json",
+  "name": "nerdino-dev-project-manager",
+  "description": "NERDINO - Gerenciador de Projetos Dev for developers with public profiles and GitHub integration",
     "private": true,
     "type": "module",
     "scripts": {

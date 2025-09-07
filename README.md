@@ -1,8 +1,8 @@
-# 📋  To-Do App
+# 🚀 NERDINO - Gerenciador de Projetos Dev
 
-Modern and elegant To-Do application built with Laravel, Tailwind CSS, and Dark Mode support.
+Modern and elegant Dev Project Manager built with Laravel, Tailwind CSS, and Dark Mode support. A comprehensive platform for developers with public profiles, GitHub integration, and project management tools.
 
-![Laravel](https://img.shields.io/badge/Laravel-v10-red?style=flat&logo=laravel)
+![Laravel](https://img.shields.io/badge/Laravel-v12-red?style=flat&logo=laravel)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-v3-blue?style=flat&logo=tailwindcss)
 ![Dark Mode](https://img.shields.io/badge/Dark%20Mode-✅-yellow?style=flat)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat)
@@ -19,10 +19,18 @@ Modern and elegant To-Do application built with Laravel, Tailwind CSS, and Dark 
 - 🎨 **Modern Design** - Glassmorphism effects and smooth animations
 - 📱 **Responsive** - Works perfectly on desktop and mobile
 - 💾 **Data Persistence** - All tasks saved in SQLite database
+- 👤 **Public Profiles** - GitHub-style public profiles for developers
+- 🔗 **OAuth Integration** - Login with Google and GitHub
+- 🖼️ **Avatar Upload** - Custom profile pictures with image processing
+- ⚙️ **Settings Page** - GitHub-style settings interface
+- ⏱️ **Time Tracking** - Track time spent on projects and tasks
+- 🔌 **API Integrations** - GitHub and GitLab API connections
+- 🌍 **Multi-language** - Portuguese and English support
+- 🔍 **Search Functionality** - Global search across projects and tasks
 
 ## 🚀 Tech Stack
 
-- **Backend**: Laravel 10 with PHP 8+
+- **Backend**: Laravel 12 with PHP 8.2+
 - **Frontend**: Tailwind CSS 3 + Alpine.js
 - **Build Tool**: Vite for fast development
 - **Database**: SQLite (easily changeable to MySQL/PostgreSQL)
@@ -40,8 +48,8 @@ Modern and elegant To-Do application built with Laravel, Tailwind CSS, and Dark 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Gaab-elle/sistema-os.git
-   cd sistema-os
+   git clone https://github.com/Gaab-elle/todo-app.git
+   cd todo-app
    ```
 
 2. **Install PHP dependencies**
@@ -125,7 +133,7 @@ Modern and elegant To-Do application built with Laravel, Tailwind CSS, and Dark 
 ## 📂 Project Structure
 
 ```
-sistema-os/
+nerdino-dev-project-manager/
 ├── app/
 │   ├── Http/Controllers/
 │   │   └── TaskController.php
@@ -285,8 +293,8 @@ SOFTWARE.
 
 ## 🔗 Links
 
-- **Repository**: [https://github.com/Gaab-elle/sistema-os](https://github.com/Gaab-elle/todo-app)
-- **Issues**: [Report a bug or request a feature](https://github.com/Gaab-elle/sistema-os/issues)
+- **Repository**: [https://github.com/Gaab-elle/todo-app](https://github.com/Gaab-elle/todo-app)
+- **Issues**: [Report a bug or request a feature](https://github.com/Gaab-elle/todo-app/issues)
 - **Laravel Documentation**: [https://laravel.com/docs](https://laravel.com/docs)
 - **Tailwind CSS**: [https://tailwindcss.com](https://tailwindcss.com)
 

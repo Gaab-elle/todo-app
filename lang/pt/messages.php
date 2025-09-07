@@ -2,7 +2,7 @@
 
 return [
     // Títulos principais
-    'app_title' => 'Dev Project Manager',
+    'app_title' => 'NERDINO - Gerenciador de Projetos Dev',
     'home' => 'Dashboard',
     'tasks' => 'Tarefas Dev',
     'projects' => 'Projetos',

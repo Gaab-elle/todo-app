@@ -31,6 +31,11 @@ Route::get('/up', function () {
     return 'OK';
 })->withoutMiddleware(['web']);
 
+// Super simple test route - NO DATABASE
+Route::get('/simple', function () {
+    return 'NERDINO - Simple Test OK';
+});
+
 // Test route for debugging - NO DATABASE
 Route::get('/test', function () {
     try {

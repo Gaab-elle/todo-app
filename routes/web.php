@@ -16,6 +16,19 @@ use App\Http\Controllers\PublicProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 
+// Healthcheck route for Railway
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok', 'timestamp' => now()]);
+});
+
+// Welcome route for non-authenticated users
+Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('home.index');
+    }
+    return view('welcome');
+})->name('welcome');
+
 // Rota para mudança de idioma
 Route::get('/locale/{locale}', function ($locale) {
     // Verificar se o locale é válido
@@ -70,7 +83,7 @@ Route::get('/developers', [PublicProfileController::class, 'search'])->name('dev
 Route::get('/api/trending', [PublicProfileController::class, 'trending'])->name('api.trending');
 
 // Rota principal (home) - protegida por autenticação
-Route::get('/', [HomeController::class, 'index'])->name('home.index')->middleware('auth');
+Route::get('/dashboard', [HomeController::class, 'index'])->name('home.index')->middleware('auth');
 
 // Rota de busca global - protegida por autenticação
 Route::get('/search', [HomeController::class, 'search'])->name('search')->middleware('auth');

@@ -10,14 +10,27 @@ use Illuminate\Http\JsonResponse;
 class PublicProfileController extends Controller
 {
     /**
+     * Add an identifier filter (username or numeric id) to the query
+     */
+    private function applyIdentifierFilter($query, $identifier)
+    {
+        return $query->where(function ($q) use ($identifier) {
+            $q->where('username', $identifier);
+
+            // Only compare by id when the identifier is purely numeric
+            if (ctype_digit((string) $identifier)) {
+                $q->orWhere('id', (int) $identifier);
+            }
+        });
+    }
+
+    /**
      * Show public profile by username or ID.
      */
     public function show(Request $request, $identifier)
     {
-        // Try to find user by username first, then by ID
-        $user = User::where('username', $identifier)
-            ->orWhere('id', $identifier)
-            ->first();
+        // Try to find user by username first, then by ID (numeric only)
+        $user = $this->applyIdentifierFilter(User::query(), $identifier)->first();
 
         if (!$user) {
             abort(404, 'Perfil não encontrado.');
@@ -124,8 +137,7 @@ class PublicProfileController extends Controller
      */
     public function projects(Request $request, $identifier): JsonResponse
     {
-        $user = User::where('username', $identifier)
-            ->orWhere('id', $identifier)
+        $user = $this->applyIdentifierFilter(User::query(), $identifier)
             ->where('is_public', true)
             ->first();
 
@@ -149,8 +161,7 @@ class PublicProfileController extends Controller
      */
     public function githubStats(Request $request, $identifier): JsonResponse
     {
-        $user = User::where('username', $identifier)
-            ->orWhere('id', $identifier)
+        $user = $this->applyIdentifierFilter(User::query(), $identifier)
             ->where('is_public', true)
             ->first();
 

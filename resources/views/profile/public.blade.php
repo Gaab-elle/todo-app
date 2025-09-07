@@ -25,21 +25,55 @@
                     <div>
                         <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ $user->name }}</h1>
                         <p class="text-xl text-gray-600 dark:text-gray-400">@{{ $user->username ?? 'username' }}</p>
+                        
+                        @php
+                            // Verificar se o perfil tem informações básicas configuradas
+                            $hasBasicInfo = $user->bio || $user->location || $user->website || $user->linkedin || $user->twitter || $user->github_username;
+                            $hasSkills = $user->skills && is_array($user->skills) && count($user->skills) > 0;
+                            $isProfileConfigured = $hasBasicInfo || $hasSkills;
+                            $isOwnProfile = auth()->check() && auth()->id() == $user->id;
+                        @endphp
+                        
                         @if($user->bio)
                             <p class="text-gray-600 dark:text-gray-400 mt-2">{{ $user->bio }}</p>
                         @endif
                         
+                        @if($isOwnProfile && !$isProfileConfigured)
+                            <!-- Profile Not Configured Message - Only for own profile -->
+                            <div class="mt-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                                <div class="flex items-start">
+                                    <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                    </svg>
+                                    <div>
+                                        <h3 class="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+                                            {{ __('messages.profile_not_configured') }}
+                                        </h3>
+                                        <p class="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
+                                            {{ __('messages.profile_not_configured_description') }}
+                                        </p>
+                                        <a href="{{ route('profile.settings') }}" class="inline-flex items-center mt-2 text-sm font-medium text-yellow-800 dark:text-yellow-200 hover:text-yellow-900 dark:hover:text-yellow-100">
+                                            {{ __('messages.configure_profile') }}
+                                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        
                         <!-- Social Links -->
                         <div class="flex items-center space-x-4 mt-4">
-                            @if($user->location)
-                                <div class="flex items-center text-gray-600 dark:text-gray-400">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    {{ $user->location }}
-                                </div>
-                            @endif
+                                @if($user->location)
+                                    <div class="flex items-center text-gray-600 dark:text-gray-400">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        {{ $user->location }}
+                                    </div>
+                                @endif
                             
                             @if($user->website)
                                 <a href="{{ $user->website }}" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">
@@ -64,7 +98,7 @@
                                     </svg>
                                 </a>
                             @endif
-                        </div>
+                            </div>
                     </div>
                 </div>
                 
@@ -83,49 +117,107 @@
                 
                 <!-- About Me Section -->
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Sobre Mim</h2>
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">👋 Olá, Mundo! Sou {{ $user->name }}</h2>
                     <div class="space-y-4">
-                        <div class="flex items-center space-x-3">
-                            <span class="text-lg font-semibold text-gray-900 dark:text-white">Desenvolvedora Fullstack | PHP | LARAVEL | PYTHON</span>
-                        </div>
-                        <p class="text-gray-600 dark:text-gray-400">
-                            Sou apaixonada por desafios tecnológicos e soluções criativas que fazem a diferença no mundo digital. 
-                            Focando no desenvolvimento de software robusto e segurança cibernética.
-                        </p>
+                        @if($user->bio)
+                            <p class="text-lg text-gray-600 dark:text-gray-400">{{ $user->bio }}</p>
+                        @endif
+                        
+                        @if($user->skills && is_array($user->skills) && count($user->skills) > 0)
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Foco:</span>
+                                <span class="text-lg font-semibold text-blue-600 dark:text-blue-400">
+                                    {{ implode(' | ', array_slice($user->skills, 0, 3)) }}
+                                </span>
+                            </div>
+                        @endif
+                        
+                        @if(!$user->bio && $isOwnProfile)
+                            <p class="text-gray-600 dark:text-gray-400 italic">
+                                Adicione uma biografia nas configurações para personalizar seu perfil.
+                            </p>
+                        @elseif(!$user->bio)
+                            <p class="text-gray-600 dark:text-gray-400 italic">
+                                Este desenvolvedor ainda não adicionou uma biografia.
+                            </p>
+                        @endif
                     </div>
                 </div>
 
                 <!-- Technologies and Tools Section -->
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Tecnologias e Ferramentas</h2>
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Tecnologias & Ferramentas</h2>
                     
-                    <!-- Languages and Frameworks -->
-                    <div class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Linguagens e Frameworks</h3>
+                    @if($user->skills && is_array($user->skills) && count($user->skills) > 0)
+                        <!-- Skills from user profile -->
                         <div class="flex flex-wrap gap-3">
-                            <span class="px-3 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-lg text-sm font-medium">PYTHON</span>
-                            <span class="px-3 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-lg text-sm font-medium">PHP</span>
-                            <span class="px-3 py-2 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-lg text-sm font-medium">JS JAVASCRIPT</span>
-                            <span class="px-3 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-lg text-sm font-medium">DJANGO</span>
-                            <span class="px-3 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-lg text-sm font-medium">LARAVEL</span>
-                            <span class="px-3 py-2 bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-200 rounded-lg text-sm font-medium">REACT</span>
+                            @foreach($user->skills ?? [] as $skill)
+                                @php
+                                    $colors = [
+                                        'PHP' => 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
+                                        'LARAVEL' => 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200',
+                                        'PYTHON' => 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
+                                        'JAVASCRIPT' => 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
+                                        'REACT' => 'bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-200',
+                                        'VUE' => 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
+                                        'MYSQL' => 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+                                        'POSTGRESQL' => 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
+                                        'GIT' => 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+                                        'LINUX' => 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200',
+                                        'CSS' => 'bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200',
+                                        'HTML' => 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+                                    ];
+                                    $colorClass = $colors[strtoupper($skill)] ?? 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200';
+                                @endphp
+                                <span class="px-3 py-2 {{ $colorClass }} rounded-lg text-sm font-medium">{{ strtoupper($skill) }}</span>
+                            @endforeach
                         </div>
-                    </div>
-                    
-                    <!-- Databases & DevOps -->
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Banco de Dados & DevOps</h3>
-                        <div class="flex flex-wrap gap-3">
-                            <span class="px-3 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-lg text-sm font-medium">POSTGRESQL</span>
-                            <span class="px-3 py-2 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-lg text-sm font-medium">MYSQL</span>
-                            <span class="px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg text-sm font-medium">LINUX</span>
-                            <span class="px-3 py-2 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-lg text-sm font-medium">GIT</span>
-                            <span class="px-3 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-lg text-sm font-medium">VS CODE</span>
-                        </div>
-                    </div>
+                    @else
+                        @if($isOwnProfile)
+                            <p class="text-gray-600 dark:text-gray-400 italic">
+                                Adicione suas tecnologias e ferramentas nas configurações para mostrar suas habilidades.
+                            </p>
+                        @else
+                            <p class="text-gray-600 dark:text-gray-400 italic">
+                                Este desenvolvedor ainda não adicionou suas tecnologias.
+                            </p>
+                        @endif
+                    @endif
                 </div>
 
+                @if($projects && $projects->count() > 0)
                 <!-- Featured Projects Section -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Projetos em Destaque</h2>
+                    
+                    <!-- Project Cards -->
+                    <div class="space-y-6">
+                        @foreach($projects as $project)
+                            <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-6 hover:shadow-md transition-shadow">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $project->name }}</h3>
+                                        @if($project->description)
+                                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $project->description }}</p>
+                                        @endif
+                                    </div>
+                                    <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded-full">
+                                        {{ $project->is_public ? 'Público' : 'Privado' }}
+                                    </span>
+                                </div>
+                                @if($project->technologies)
+                                    <div class="space-y-2">
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                                            <strong>Tecnologias:</strong> {{ $project->technologies }}
+                                        </p>
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                @else
+                <!-- Default Projects Section -->
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                     <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Projetos em Destaque</h2>
                     
@@ -198,13 +290,15 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
 
             <!-- Right Column -->
             <div class="space-y-6">
                 
-                @if($user->github_username && $githubData)
-                <!-- GitHub Statistics -->
+                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @if($user->github_username)
+                <!-- GitHub Statistics -->                                                                                                                                                                                                                                                                                                                                                            
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
@@ -235,14 +329,14 @@
                     </div>
                     @endif
                     
-                    @if($githubLanguages && count($githubLanguages) > 0)
+                    @if($githubLanguages && is_array($githubLanguages) && count($githubLanguages) > 0)
                     <!-- Most Used Languages -->
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
                         <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Linguagens de Programação</h4>
                         <div class="space-y-2">
                             @php
-                                $totalBytes = array_sum($githubLanguages);
-                                $topLanguages = array_slice($githubLanguages, 0, 5, true);
+                                $totalBytes = array_sum($githubLanguages ?? []);
+                                $topLanguages = array_slice($githubLanguages ?? [], 0, 5, true);
                             @endphp
                             @foreach($topLanguages as $language => $bytes)
                                 @php
@@ -257,12 +351,12 @@
                     </div>
                     @endif
                     
-                    @if($githubRepos && count($githubRepos) > 0)
+                    @if($githubRepos && is_array($githubRepos) && count($githubRepos) > 0)
                     <!-- Recent Repositories -->
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                         <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Repositórios Recentes</h4>
                         <div class="space-y-2">
-                            @foreach(array_slice($githubRepos, 0, 3) as $repo)
+                            @foreach(array_slice($githubRepos ?? [], 0, 3) as $repo)
                                 <div class="flex items-center justify-between text-xs">
                                     <a href="{{ $repo['html_url'] }}" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">
                                         {{ $repo['name'] }}

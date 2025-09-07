@@ -15,7 +15,8 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
-    @vite(['resources/css/app.css', 'resources/css/custom.css', 'resources/css/fab.css', 'resources/js/app.js', 'resources/js/fab.js', 'resources/js/vue-app.js'])
+    @vite(['resources/css/app.css', 'resources/css/custom.css', 'resources/css/fab.css', 'resources/css/search-box.css', 'resources/js/app.js', 'resources/js/fab.js', 'resources/js/vue-app.js'])
+    
     
     @stack('styles')
     
@@ -297,12 +298,19 @@
             </div>
             
             <!-- Profile Button -->
-            <div class="px-2 py-2">
-                <a href="{{ route('profile.settings') }}" class="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+            <div class="px-2 py-2 space-y-1">
+                <a href="{{ route('profile.public', auth()->user()->username ?? auth()->user()->id) }}" class="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                     <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                     </svg>
                     <span class="ml-3 hidden lg:group-hover:block transition-opacity duration-300 whitespace-nowrap">{{ __('messages.profile') }}</span>
+                </a>
+                <a href="{{ route('profile.settings') }}" class="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <span class="ml-3 hidden lg:group-hover:block transition-opacity duration-300 whitespace-nowrap">{{ __('messages.settings') }}</span>
                 </a>
             </div>
             
@@ -338,13 +346,6 @@
                         <span class="ml-3 hidden lg:group-hover:block transition-opacity duration-300 whitespace-nowrap">{{ __('messages.statistics') }}</span>
                     </a>
                     
-                    <a href="{{ route('profile.settings') }}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors {{ request()->is('settings*') ? 'bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300' : '' }}">
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg>
-                        <span class="ml-3 hidden lg:group-hover:block transition-opacity duration-300 whitespace-nowrap">{{ __('messages.settings') }}</span>
-                    </a>
                 </div>
             </nav>
             
@@ -379,16 +380,7 @@
                         
                         <!-- Center: Search Bar -->
                         <div class="flex-1 flex justify-center px-2 sm:px-4">
-                            <div class="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
-                                <form id="search-form" action="{{ route('search') }}" method="GET">
-                                    <input type="text" id="search-input" name="q" placeholder="{{ __('messages.search_placeholder') }}" class="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-1.5 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-                                </form>
-                                <div class="absolute inset-y-0 left-0 pl-2 sm:pl-3 flex items-center pointer-events-none">
-                                    <svg class="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                    </svg>
-                                </div>
-                            </div>
+                            <div id="search-box-container"></div>
                         </div>
                         
                         <!-- Right: User Info, Theme Toggle, Language & Logout -->
@@ -533,30 +525,17 @@
                 }
             }
             
-            // Search functionality
-            const searchForm = document.getElementById('search-form');
-            const searchInput = document.getElementById('search-input');
-            
-            if (searchForm && searchInput) {
-                // Handle form submission
-                searchForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const query = searchInput.value.trim();
-                    if (query) {
-                        window.location.href = `{{ route('search') }}?q=${encodeURIComponent(query)}`;
-                    }
-                });
-                
-                // Handle Enter key
-                searchInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        const query = this.value.trim();
-                        if (query) {
-                            window.location.href = `{{ route('search') }}?q=${encodeURIComponent(query)}`;
-                        }
-                    }
-                });
+            // Initialize Search Box Vue Component
+            if (window.SearchBoxComponent && window.createVueApp) {
+                const searchContainer = document.getElementById('search-box-container');
+                if (searchContainer) {
+                    const searchApp = window.createVueApp(window.SearchBoxComponent, {
+                        placeholder: '{{ __("messages.search_placeholder") }}',
+                        searchTitle: '{{ __("messages.search") }}',
+                        searchRoute: '{{ route("search") }}'
+                    });
+                    searchApp.mount(searchContainer);
+                }
             }
         });
     </script>

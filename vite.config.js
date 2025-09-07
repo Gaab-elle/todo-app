@@ -10,6 +10,7 @@ export default defineConfig({
         'resources/css/app.css', 
         'resources/css/custom.css', 
         'resources/css/fab.css', 
+        'resources/css/search-box.css', 
         'resources/js/app.js', 
         'resources/js/fab.js',
         'resources/js/vue-app.js'

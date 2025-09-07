@@ -7,7 +7,7 @@
         <!-- Header -->
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ __('messages.settings') }}</h1>
-            <p class="text-gray-600 dark:text-gray-400 mt-2">{{ __('messages.settings_description') }}</p>
+            <p class="text-gray-700 dark:text-gray-300 mt-2">{{ __('messages.settings_description') }}</p>
         </div>
 
         <!-- Success/Error Messages -->
@@ -32,7 +32,7 @@
             <div class="lg:col-span-1">
                 <nav class="space-y-1">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">{{ __('messages.account') }}</h3>
+                        <h3 class="text-sm font-semibold text-gray-800 dark:text-white mb-3">{{ __('messages.account') }}</h3>
                         <div class="space-y-1">
                             <a href="javascript:void(0)" class="block px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 rounded-md">
                                 {{ __('messages.public_profile') }}
@@ -50,7 +50,7 @@
                     </div>
                     
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">{{ __('messages.access') }}</h3>
+                        <h3 class="text-sm font-semibold text-gray-800 dark:text-white mb-3">{{ __('messages.access') }}</h3>
                         <div class="space-y-1">
                             <a href="javascript:void(0)" class="block px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md">
                                 {{ __('messages.password_and_authentication') }}
@@ -72,11 +72,28 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ $user->name }}</h2>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">{{ __('messages.your_personal_account') }}</p>
+                                <p class="text-sm text-gray-700 dark:text-gray-300">{{ __('messages.your_personal_account') }}</p>
                             </div>
                             <a href="{{ route('profile.public', auth()->user()->username ?? auth()->user()->id) }}" class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
                                 {{ __('messages.go_to_personal_profile') }}
                             </a>
+                        </div>
+                    </div>
+
+                    <!-- Public Profile Toggle -->
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-sm font-medium text-gray-900 dark:text-white">{{ __('messages.profile_visibility') }}</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">{{ __('messages.profile_visibility_description') }}</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="is_public" value="1" class="sr-only peer" {{ $user->is_public ? 'checked' : '' }} onchange="updateProfileVisibility(this)">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                <span class="ml-3 text-sm font-medium text-gray-900 dark:text-white" id="visibility-status">
+                                    {{ $user->is_public ? 'Público' : 'Privado' }}
+                                </span>
+                            </label>
                         </div>
                     </div>
 
@@ -113,7 +130,7 @@
                             
                             <div class="flex-1">
                                 <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ __('messages.public_profile') }}</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                                <p class="text-sm text-gray-700 dark:text-gray-300 mb-6">
                                     {{ __('messages.public_profile_description') }}
                                 </p>
                             </div>
@@ -137,7 +154,7 @@
                                        value="{{ old('name', $user->name) }}"
                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                        placeholder="{{ __('messages.name_label') }}">
-                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">
                                     {{ __('messages.name_help') }}
                                 </p>
                                 @error('name')
@@ -153,7 +170,7 @@
                                 <select id="email" name="email" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                                     <option value="{{ $user->email }}">{{ $user->email }}</option>
                                 </select>
-                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">
                                     {{ __('messages.public_email_help') }}
                                 </p>
                                 @error('email')
@@ -171,7 +188,7 @@
                                           rows="3"
                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
                                           placeholder="{{ __('messages.bio_placeholder') }}">{{ old('bio', $user->bio) }}</textarea>
-                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">
                                     {{ __('messages.bio_help') }}
                                 </p>
                                 @error('bio')
@@ -185,7 +202,7 @@
                                     {{ __('messages.username_label') }}
                                 </label>
                                 <div class="flex">
-                                    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-600 text-gray-500 dark:text-gray-400 text-sm">
+                                    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-sm">
                                         {{ url('/profile/') }}/
                                     </span>
                                     <input type="text" 
@@ -351,6 +368,16 @@ function removeAvatar() {
             console.error('Error:', error);
             alert('Erro ao remover avatar');
         });
+    }
+}
+
+// Update profile visibility status
+function updateProfileVisibility(checkbox) {
+    const statusElement = document.getElementById('visibility-status');
+    if (checkbox.checked) {
+        statusElement.textContent = 'Público';
+    } else {
+        statusElement.textContent = 'Privado';
     }
 }
 </script>

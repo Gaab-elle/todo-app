@@ -30,7 +30,10 @@ class StatsController extends Controller
         
         // Tasks created by month (last 6 months)
         $monthlyStats = Task::select(
-                DB::raw('DATE_TRUNC(\'month\', created_at) as month'),
+                DB::raw(DB::connection()->getDriverName() === 'sqlite' 
+                    ? 'strftime("%Y-%m", created_at) as month'
+                    : 'DATE_TRUNC(\'month\', created_at) as month'
+                ),
                 DB::raw('count(*) as count')
             )
             ->where('created_at', '>=', now()->subMonths(6))
@@ -46,7 +49,10 @@ class StatsController extends Controller
         // Average completion time (in days)
         $avgCompletionTime = Task::completed()
             ->whereNotNull('created_at')
-            ->selectRaw('AVG(EXTRACT(EPOCH FROM (updated_at - created_at))/86400) as avg_days')
+            ->selectRaw(DB::connection()->getDriverName() === 'sqlite'
+                ? 'AVG((julianday(updated_at) - julianday(created_at))) as avg_days'
+                : 'AVG(EXTRACT(EPOCH FROM (updated_at - created_at))/86400) as avg_days'
+            )
             ->value('avg_days');
         
         return view('stats.index', [

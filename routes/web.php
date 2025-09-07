@@ -15,10 +15,26 @@ use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\PublicProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 // Healthcheck route for Railway
 Route::get('/health', function () {
-    return response()->json(['status' => 'ok']);
+    try {
+        // Check if database is accessible
+        DB::connection()->getPdo();
+        
+        return response()->json([
+            'status' => 'ok',
+            'timestamp' => now()->toISOString(),
+            'database' => 'connected'
+        ], 200);
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Database connection failed',
+            'timestamp' => now()->toISOString()
+        ], 500);
+    }
 });
 
 // Test route for debugging

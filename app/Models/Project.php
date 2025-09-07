@@ -13,17 +13,47 @@ class Project extends Model
         'color',
         'icon',
         'is_active',
-        'is_favorite'
+        'is_favorite',
+        'project_type',
+        'programming_languages',
+        'technologies_used',
+        'repository_url',
+        'development_status',
+        'time_spent',
+        'start_date',
+        'end_date',
+        'category',
+        'user_id'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'is_favorite' => 'boolean'
+        'is_favorite' => 'boolean',
+        'programming_languages' => 'array',
+        'technologies_used' => 'array',
+        'time_spent' => 'integer',
+        'start_date' => 'date',
+        'end_date' => 'date'
     ];
 
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);
+    }
+
+    public function timeTrackings(): HasMany
+    {
+        return $this->hasMany(TimeTracking::class);
+    }
+
+    public function apiIntegrations(): HasMany
+    {
+        return $this->hasMany(ApiIntegration::class);
+    }
+
+    public function repositoryCommits(): HasMany
+    {
+        return $this->hasMany(RepositoryCommit::class);
     }
 
     public function templates(): HasMany

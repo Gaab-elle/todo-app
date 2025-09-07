@@ -39,8 +39,27 @@ class ProjectController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'color' => 'required|string|regex:/^#[0-9A-Fa-f]{6}$/',
-            'icon' => 'nullable|string|max:50'
+            'icon' => 'nullable|string|max:50',
+            'project_type' => 'nullable|string|in:frontend,backend,mobile,fullstack,api,library,framework',
+            'programming_languages' => 'nullable|array',
+            'programming_languages.*' => 'string|max:50',
+            'technologies_used' => 'nullable|array',
+            'technologies_used.*' => 'string|max:50',
+            'repository_url' => 'nullable|url|max:255',
+            'development_status' => 'nullable|string|in:planning,active,paused,completed',
+            'time_spent' => 'nullable|integer|min:0',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'category' => 'nullable|string|max:100'
         ]);
+
+        // Processar arrays de linguagens e tecnologias
+        if ($request->has('programming_languages')) {
+            $validated['programming_languages'] = array_filter($request->programming_languages);
+        }
+        if ($request->has('technologies_used')) {
+            $validated['technologies_used'] = array_filter($request->technologies_used);
+        }
 
         Project::create($validated);
 
@@ -87,8 +106,27 @@ class ProjectController extends Controller
             'description' => 'nullable|string',
             'color' => 'required|string|regex:/^#[0-9A-Fa-f]{6}$/',
             'icon' => 'nullable|string|max:50',
-            'is_active' => 'boolean'
+            'is_active' => 'boolean',
+            'project_type' => 'nullable|string|in:frontend,backend,mobile,fullstack,api,library,framework',
+            'programming_languages' => 'nullable|array',
+            'programming_languages.*' => 'string|max:50',
+            'technologies_used' => 'nullable|array',
+            'technologies_used.*' => 'string|max:50',
+            'repository_url' => 'nullable|url|max:255',
+            'development_status' => 'nullable|string|in:planning,active,paused,completed',
+            'time_spent' => 'nullable|integer|min:0',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'category' => 'nullable|string|max:100'
         ]);
+
+        // Processar arrays de linguagens e tecnologias
+        if ($request->has('programming_languages')) {
+            $validated['programming_languages'] = array_filter($request->programming_languages);
+        }
+        if ($request->has('technologies_used')) {
+            $validated['technologies_used'] = array_filter($request->technologies_used);
+        }
 
         $project->update($validated);
 
@@ -123,7 +161,7 @@ class ProjectController extends Controller
      */
     public function toggleFavorite(Project $project)
     {
-        try {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        try {
             $project->update(['is_favorite' => !$project->is_favorite]);
 
             if (request()->expectsJson()) {

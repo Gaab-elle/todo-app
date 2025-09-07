@@ -71,6 +71,69 @@
                     @if($project->description)
                         <p class="text-gray-300 mb-4 leading-relaxed">{{ $project->description }}</p>
                     @endif
+
+                    <!-- Development Information -->
+                    <div class="mb-4 space-y-3">
+                        <!-- Project Type and Status -->
+                        <div class="flex items-center space-x-4">
+                            @if($project->project_type)
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                                    {{ ucfirst($project->project_type) }}
+                                </span>
+                            @endif
+                            @if($project->development_status)
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium 
+                                    @if($project->development_status === 'active') bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300
+                                    @elseif($project->development_status === 'paused') bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300
+                                    @elseif($project->development_status === 'completed') bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300
+                                    @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 @endif">
+                                    {{ ucfirst($project->development_status) }}
+                                </span>
+                            @endif
+                        </div>
+
+                        <!-- Programming Languages -->
+                        @if($project->programming_languages && count($project->programming_languages) > 0)
+                            <div>
+                                <p class="text-xs text-gray-400 mb-1">{{ __('messages.programming_languages') }}:</p>
+                                <div class="flex flex-wrap gap-1">
+                                    @foreach(array_slice($project->programming_languages, 0, 3) as $language)
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
+                                            {{ $language }}
+                                        </span>
+                                    @endforeach
+                                    @if(count($project->programming_languages) > 3)
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                                            +{{ count($project->programming_languages) - 3 }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+
+                        <!-- Time Spent -->
+                        @if($project->time_spent > 0)
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span class="text-xs text-gray-400">{{ __('messages.time_spent') }}:</span>
+                                <span class="text-xs text-gray-300">{{ round($project->time_spent / 60, 1) }}h</span>
+                            </div>
+                        @endif
+
+                        <!-- Repository Link -->
+                        @if($project->repository_url)
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                </svg>
+                                <a href="{{ $project->repository_url }}" target="_blank" class="text-xs text-blue-400 hover:text-blue-300 transition-colors">
+                                    {{ __('messages.view_repository') }}
+                                </a>
+                            </div>
+                        @endif
+                    </div>
                     
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-2">

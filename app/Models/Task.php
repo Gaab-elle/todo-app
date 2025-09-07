@@ -20,14 +20,25 @@ class Task extends Model
         'status',
         'tags',
         'project_id',
-        'is_favorite'
+        'is_favorite',
+        'task_type',
+        'programming_language',
+        'estimated_time',
+        'actual_time',
+        'complexity',
+        'repository_branch',
+        'issue_number',
+        'pull_request_url',
+        'user_id'
     ];
 
     protected $casts = [
         'completed' => 'boolean',
         'due_date' => 'datetime',
         'tags' => 'array',
-        'is_favorite' => 'boolean'
+        'is_favorite' => 'boolean',
+        'estimated_time' => 'integer',
+        'actual_time' => 'integer'
     ];
 
     public function scopeCompleted($query)
@@ -61,6 +72,106 @@ class Task extends Model
               ->orWhere('description', 'LIKE', "%{$search}%")
               ->orWhereJsonContains('tags', $search);
         });
+    }
+
+    public function scopeUrgent($query)
+    {
+        return $query->where(function ($q) {
+            $q->where('priority', 'high')
+              ->orWhere(function ($subQ) {
+                  // Tarefas com prazo vencendo hoje ou já vencidas
+                  $subQ->whereNotNull('due_date')
+                       ->whereDate('due_date', '<=', now()->toDateString())
+                       ->where('completed', false);
+              })
+              ->orWhere(function ($subQ) {
+                  // Tarefas com prazo vencendo nos próximos 2 dias
+                  $subQ->whereNotNull('due_date')
+                       ->whereDate('due_date', '<=', now()->addDays(2)->toDateString())
+                       ->where('completed', false)
+                       ->where('priority', 'medium');
+              });
+        });
+    }
+
+    public function scopeDueToday($query)
+    {
+        return $query->whereNotNull('due_date')
+                    ->whereDate('due_date', now()->toDateString())
+                    ->where('completed', false);
+    }
+
+    public function scopeOverdue($query)
+    {
+        return $query->whereNotNull('due_date')
+                    ->whereDate('due_date', '<', now()->toDateString())
+                    ->where('completed', false);
+    }
+
+    public function getIsUrgentAttribute()
+    {
+        // Tarefa é urgente se:
+        // 1. Prioridade alta
+        // 2. Prazo vencido
+        // 3. Prazo vencendo hoje
+        // 4. Prazo vencendo em 2 dias e prioridade média
+        
+        if ($this->priority === 'high') {
+            return true;
+        }
+        
+        if (!$this->due_date) {
+            return false;
+        }
+        
+        $dueDate = $this->due_date->toDateString();
+        $today = now()->toDateString();
+        $twoDaysFromNow = now()->addDays(2)->toDateString();
+        
+        // Vencida
+        if ($dueDate < $today) {
+            return true;
+        }
+        
+        // Vence hoje
+        if ($dueDate === $today) {
+            return true;
+        }
+        
+        // Vence em 2 dias e é prioridade média
+        if ($dueDate <= $twoDaysFromNow && $this->priority === 'medium') {
+            return true;
+        }
+        
+        return false;
+    }
+
+    public function getUrgencyLevelAttribute()
+    {
+        if (!$this->due_date) {
+            return $this->priority === 'high' ? 'high' : 'normal';
+        }
+        
+        $dueDate = $this->due_date->toDateString();
+        $today = now()->toDateString();
+        $twoDaysFromNow = now()->addDays(2)->toDateString();
+        
+        // Vencida
+        if ($dueDate < $today) {
+            return 'overdue';
+        }
+        
+        // Vence hoje
+        if ($dueDate === $today) {
+            return 'due_today';
+        }
+        
+        // Vence em 2 dias
+        if ($dueDate <= $twoDaysFromNow) {
+            return 'due_soon';
+        }
+        
+        return $this->priority === 'high' ? 'high' : 'normal';
     }
 
     public function project(): BelongsTo

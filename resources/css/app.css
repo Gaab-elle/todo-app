@@ -65,3 +65,20 @@ body {
 .dark .hover\:bg-white\/20:hover {
   background: rgba(255, 255, 255, 0.2) !important;
 }
+
+/* Cards transparentes da home page */
+.dark .bg-white\/80,
+.dark .bg-gray-800\/80,
+.dark .bg-white,
+.dark .bg-gray-800 {
+  background: rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+}
+
+/* Forçar transparência nos cards da home */
+.dark div[style*="background-color: rgba(0, 0, 0, 0.2)"] {
+  background: rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+}

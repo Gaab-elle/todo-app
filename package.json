@@ -21,7 +21,7 @@
     },
     "dependencies": {
         "@tailwindcss/postcss": "^4.1.11",
-        "@vitejs/plugin-vue": "^6.0.1",
+        "@vitejs/plugin-vue": "^5.2.1",
         "alpinejs": "^3.15.0",
         "dragula": "^3.7.3",
         "pinia": "^3.0.3",

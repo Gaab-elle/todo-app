@@ -2,12 +2,12 @@
   <div class="app">
     <main class="project">
       <div class="project-info">
-        <h1>{{ t('manage_tasks_efficiently') }}</h1>
+        <h1>Gerenciar Tarefas</h1>
         <div class="project-participants">
           <span></span>
           <span></span>
           <span></span>
-          <button class="project-participants__add" @click="createTask">{{ t('add_new_task') }}</button>
+          <button class="project-participants__add" @click="createTask">Adicionar Nova Tarefa</button>
         </div>
       </div>
       

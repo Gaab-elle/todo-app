@@ -3,6 +3,10 @@
 # Script de build específico para Railway
 echo "🚀 Iniciando build para Railway..."
 
+# Instalar dependências PHP
+echo "📦 Instalando dependências PHP..."
+composer install --no-dev --optimize-autoloader --no-interaction
+
 # Instalar dependências Node.js
 echo "📦 Instalando dependências Node.js..."
 npm install --production=false

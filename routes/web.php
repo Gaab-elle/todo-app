@@ -31,22 +31,43 @@ Route::get('/up', function () {
     return 'OK';
 })->withoutMiddleware(['web']);
 
-// Test route for debugging
+// Test route for debugging - NO DATABASE
 Route::get('/test', function () {
-                                                                                                                                                                                                                                                                                                                                                                                            try {
+    try {
         return response()->json([
             'status' => 'ok',
             'env' => app()->environment(),
             'debug' => config('app.debug'),
             'key_set' => !empty(config('app.key')),
             'key_length' => strlen(config('app.key')),
-            'db_connection' => config('database.default'),
-            'db_host' => config('database.connections.pgsql.host'),
-            'db_database' => config('database.connections.pgsql.database'),
-            'db_username' => config('database.connections.pgsql.username'),
-            'db_password_set' => !empty(config('database.connections.pgsql.password')),
             'app_url' => config('app.url'),
-            'app_name' => config('app.name')
+            'app_name' => config('app.name'),
+            'php_version' => PHP_VERSION,
+            'laravel_version' => app()->version()
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ], 500);
+    }
+});
+
+// Database test route
+Route::get('/db-test', function () {
+    try {
+        $db_connection = config('database.default');
+        $db_host = config('database.connections.pgsql.host');
+        $db_database = config('database.connections.pgsql.database');
+        $db_username = config('database.connections.pgsql.username');
+        $db_password_set = !empty(config('database.connections.pgsql.password'));
+        
+        return response()->json([
+            'db_connection' => $db_connection,
+            'db_host' => $db_host,
+            'db_database' => $db_database,
+            'db_username' => $db_username,
+            'db_password_set' => $db_password_set
         ]);
     } catch (Exception $e) {
         return response()->json([

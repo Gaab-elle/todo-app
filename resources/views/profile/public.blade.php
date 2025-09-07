@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 dark:bg-gray-50">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         <!-- Profile Header -->
@@ -82,7 +82,7 @@
             <div class="lg:col-span-2 space-y-8">
                 
                 <!-- About Me Section -->
-                <div class="bg-white dark:bg-white rounded-lg shadow-sm border border-gray-200 dark:border-gray-200 p-6">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                     <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Sobre Mim</h2>
                     <div class="space-y-4">
                         <div class="flex items-center space-x-3">
@@ -96,7 +96,7 @@
                 </div>
 
                 <!-- Technologies and Tools Section -->
-                <div class="bg-white dark:bg-white rounded-lg shadow-sm border border-gray-200 dark:border-gray-200 p-6">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                     <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Tecnologias e Ferramentas</h2>
                     
                     <!-- Languages and Frameworks -->
@@ -118,7 +118,7 @@
                         <div class="flex flex-wrap gap-3">
                             <span class="px-3 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-lg text-sm font-medium">POSTGRESQL</span>
                             <span class="px-3 py-2 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-lg text-sm font-medium">MYSQL</span>
-                            <span class="px-3 py-2 bg-gray-100 dark:bg-gray-100 text-gray-800 dark:text-gray-800 rounded-lg text-sm font-medium">LINUX</span>
+                            <span class="px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg text-sm font-medium">LINUX</span>
                             <span class="px-3 py-2 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-lg text-sm font-medium">GIT</span>
                             <span class="px-3 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-lg text-sm font-medium">VS CODE</span>
                         </div>
@@ -126,7 +126,7 @@
                 </div>
 
                 <!-- Featured Projects Section -->
-                <div class="bg-white dark:bg-white rounded-lg shadow-sm border border-gray-200 dark:border-gray-200 p-6">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                     <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Projetos em Destaque</h2>
                     
                     <!-- Project Cards -->
@@ -204,7 +204,7 @@
             <div class="space-y-6">
                 
                 <!-- GitHub Statistics -->
-                <div class="bg-white dark:bg-white rounded-lg shadow-sm border border-gray-200 dark:border-gray-200 p-6">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
@@ -213,7 +213,7 @@
                     </h3>
                     
                     <!-- GitHub Stats Card -->
-                    <div class="bg-gray-50 dark:bg-gray-50 rounded-lg p-4 mb-4">
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
                         <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">{{ $user->name }}'s GitHub Stats</h4>
                         <div class="grid grid-cols-2 gap-2 text-xs">
                             <div class="flex justify-between">
@@ -240,7 +240,7 @@
                     </div>
                     
                     <!-- Most Used Languages -->
-                    <div class="bg-gray-50 dark:bg-gray-50 rounded-lg p-4">
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                         <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Most Used Languages</h4>
                         <div class="space-y-2">
                             @if(isset($githubData['languages']) && is_array($githubData['languages']))
@@ -258,7 +258,7 @@
                 </div>
 
                 <!-- Let's Talk Section -->
-                <div class="bg-white dark:bg-white rounded-lg shadow-sm border border-gray-200 dark:border-gray-200 p-6">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
@@ -300,7 +300,7 @@
                 </div>
 
                 <!-- Quote Section -->
-                <div class="bg-white dark:bg-white rounded-lg shadow-sm border border-gray-200 dark:border-gray-200 p-6 text-center">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 text-center">
                     <blockquote class="text-gray-600 dark:text-gray-400 italic">
                         "A tecnologia é melhor quando aproxima as pessoas"
                     </blockquote>

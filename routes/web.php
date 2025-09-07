@@ -21,6 +21,16 @@ Route::get('/health', function () {
     return response()->json(['status' => 'ok']);
 });
 
+// Test route for debugging
+Route::get('/test', function () {
+    return response()->json([
+        'status' => 'ok',
+        'env' => app()->environment(),
+        'debug' => config('app.debug'),
+        'key_set' => !empty(config('app.key'))
+    ]);
+});
+
 // Welcome route for non-authenticated users
 Route::get('/', function () {
     if (auth()->check()) {

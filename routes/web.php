@@ -17,25 +17,19 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
-// Healthcheck route for Railway
+// Healthcheck route for Railway (no middleware)
 Route::get('/health', function () {
-    try {
-        // Check if database is accessible
-        DB::connection()->getPdo();
-        
-        return response()->json([
-            'status' => 'ok',
-            'timestamp' => now()->toISOString(),
-            'database' => 'connected'
-        ], 200);
-    } catch (Exception $e) {
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Database connection failed',
-            'timestamp' => now()->toISOString()
-        ], 500);
-    }
-});
+    return response()->json([
+        'status' => 'ok',
+        'timestamp' => now()->toISOString(),
+        'app' => 'running'
+    ], 200);
+})->withoutMiddleware();
+
+// Simple healthcheck for Railway
+Route::get('/up', function () {
+    return 'OK';
+})->withoutMiddleware();
 
 // Test route for debugging
 Route::get('/test', function () {

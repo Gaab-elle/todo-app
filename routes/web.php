@@ -24,12 +24,12 @@ Route::get('/health', function () {
         'timestamp' => now()->toISOString(),
         'app' => 'running'
     ], 200);
-})->withoutMiddleware();
+})->withoutMiddleware(['web']);
 
 // Simple healthcheck for Railway
 Route::get('/up', function () {
     return 'OK';
-})->withoutMiddleware();
+})->withoutMiddleware(['web']);
 
 // Test route for debugging
 Route::get('/test', function () {

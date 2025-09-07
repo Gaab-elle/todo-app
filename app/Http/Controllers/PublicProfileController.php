@@ -17,10 +17,16 @@ class PublicProfileController extends Controller
         // Try to find user by username first, then by ID
         $user = User::where('username', $identifier)
             ->orWhere('id', $identifier)
-            ->where('is_public', true)
             ->first();
 
         if (!$user) {
+            abort(404, 'Perfil não encontrado.');
+        }
+
+        // Check if user can view this profile
+        $canView = $user->is_public || (auth()->check() && auth()->id() == $user->id);
+        
+        if (!$canView) {
             abort(404, 'Perfil não encontrado ou não está público.');
         }
 

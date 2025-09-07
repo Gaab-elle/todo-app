@@ -33,12 +33,27 @@ Route::get('/up', function () {
 
 // Test route for debugging
 Route::get('/test', function () {
-    return response()->json([
-        'status' => 'ok',
-        'env' => app()->environment(),
-        'debug' => config('app.debug'),
-        'key_set' => !empty(config('app.key'))
-    ]);
+    try {
+        return response()->json([
+            'status' => 'ok',
+            'env' => app()->environment(),
+            'debug' => config('app.debug'),
+            'key_set' => !empty(config('app.key')),
+            'key_length' => strlen(config('app.key')),
+            'db_connection' => config('database.default'),
+            'db_host' => config('database.connections.pgsql.host'),
+            'db_database' => config('database.connections.pgsql.database'),
+            'db_username' => config('database.connections.pgsql.username'),
+            'db_password_set' => !empty(config('database.connections.pgsql.password')),
+            'app_url' => config('app.url'),
+            'app_name' => config('app.name')
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ], 500);
+    }
 });
 
 // Welcome route for non-authenticated users

@@ -33,7 +33,7 @@ Route::get('/up', function () {
 
 // Test route for debugging
 Route::get('/test', function () {
-    try {
+                                                                                                                                                                                                                                                                                                                                                                                            try {
         return response()->json([
             'status' => 'ok',
             'env' => app()->environment(),
@@ -58,10 +58,11 @@ Route::get('/test', function () {
 
 // Welcome route for non-authenticated users
 Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect()->route('home.index');
-    }
-    return view('welcome');
+    return response()->json([
+        'message' => 'NERDINO - Dev Project Manager',
+        'status' => 'running',
+        'version' => '1.0.0'
+    ]);
 })->name('welcome');
 
 // Rota para mudança de idioma

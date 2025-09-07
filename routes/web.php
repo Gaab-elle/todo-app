@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\App;
 
 // Healthcheck route for Railway
 Route::get('/health', function () {
-    return response()->json(['status' => 'ok', 'timestamp' => now()]);
+    return response()->json(['status' => 'ok']);
 });
 
 // Welcome route for non-authenticated users
